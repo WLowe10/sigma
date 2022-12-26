@@ -5,3 +5,5 @@ export class SongManager {
 
     }
 }
+
+//!make song music player implement audio manager

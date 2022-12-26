@@ -1,10 +1,22 @@
 import { createUseStyles } from "react-jss";
 import { Theme } from "@global/constants/theme";
+import { Fonts, FontWeights } from "@global/constants/fonts";
 
 export const useStyles = createUseStyles({
     app: {
         backgroundColor: Theme.background,
-        flexDirection: "row"
+        flexDirection: "column"
+    },
+    topBar: {
+        display: "flex",
+        alignItems: "center",
+        backgroundColor: Theme.black,
+        padding: 10
+    },
+    topBarTitle: {
+        color: Theme.fontColors.primary,
+        fontFamily: Fonts.Montserrat,
+        fontWeight: FontWeights.Montserrat[500]
     },
     sideBar: {
         display: "flex",
@@ -21,7 +33,11 @@ export const useStyles = createUseStyles({
     },
     mainContainer: {
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
+        flex: 1
+    },
+    pageContainer: {
+        display: "flex",
         flex: 1
     }
 });

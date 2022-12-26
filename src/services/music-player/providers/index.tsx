@@ -22,7 +22,8 @@ export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
         },
         setSong(id: string) {
             setActiveSong({
-                title: "Battle Hymn Of The Republic"
+                title: "Battle Hymn Of The Republic",
+                artist: "John Mcdermott"
             })
         },
     };
