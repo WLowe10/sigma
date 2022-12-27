@@ -5,6 +5,6 @@ export const useStyles = createUseStyles({
         display: "flex",
         flex: 1, 
         alignItems: "center",
-        justifyContent: "flex-end"
+        justifyContent: "flex-end",
     }
 });

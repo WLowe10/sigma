@@ -26,6 +26,9 @@ export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
                 artist: "John Mcdermott"
             })
         },
+        setVolume(level: number) {
+            audioManager.current.setVolume(level)
+        }
     };
 
     const state = {

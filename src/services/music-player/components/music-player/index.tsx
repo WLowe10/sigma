@@ -4,7 +4,6 @@ import { useMusic } from "@services/music-player/hooks";
 import { SongControls } from "../song-controls";
 import { AudioControls } from "../audio-controls";
 
-
 export const MusicPlayer = () => {
     const classes = useStyles();
     const { controls, state } = useMusic();
