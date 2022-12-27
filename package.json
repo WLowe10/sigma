@@ -38,9 +38,11 @@
     "rc-slider": "^10.1.0",
     "react-feather": "^2.0.10",
     "react-jss": "^10.9.2",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.6.1",
     "reset-css": "^5.0.1",
     "uuid": "^9.0.0",
-    "ytdl-core": "^4.11.2"
+    "ytdl-core": "^4.11.2",
+    "zod": "^3.20.2"
   }
 }
