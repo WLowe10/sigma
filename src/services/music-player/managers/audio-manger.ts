@@ -3,7 +3,6 @@ export class AudioManager {
 
     constructor() {
         this.audio = new Audio();
-        this.audio.src = "./12345.mp3"
     };
 
     play() {

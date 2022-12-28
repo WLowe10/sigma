@@ -17,6 +17,8 @@
   "devDependencies": {
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
+    "@types/react-modal": "^3.13.1",
+    "@types/request-promise": "^4.1.48",
     "@types/uuid": "^9.0.0",
     "@vitejs/plugin-react": "^3.0.0",
     "electron": "^21.3.1",
@@ -35,11 +37,13 @@
   },
   "dependencies": {
     "@fontsource/montserrat": "^4.5.13",
+    "axios": "^1.2.1",
     "rc-slider": "^10.1.0",
     "react-feather": "^2.0.10",
     "react-jss": "^10.9.2",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.6.1",
+    "react-toastify": "^9.1.1",
     "reset-css": "^5.0.1",
     "uuid": "^9.0.0",
     "ytdl-core": "^4.11.2",

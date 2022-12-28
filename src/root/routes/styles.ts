@@ -7,17 +7,6 @@ export const useStyles = createUseStyles({
         backgroundColor: Theme.background,
         flexDirection: "column"
     },
-    topBar: {
-        display: "flex",
-        alignItems: "center",
-        backgroundColor: Theme.black,
-        padding: 10
-    },
-    topBarTitle: {
-        color: Theme.fontColors.primary,
-        fontFamily: Fonts.Montserrat,
-        fontWeight: FontWeights.Montserrat[500]
-    },
     sideBar: {
         display: "flex",
         maxWidth: "20rem",

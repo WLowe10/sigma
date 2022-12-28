@@ -1,17 +1,19 @@
 import { ReactNode } from "react";
 import { Home } from "react-feather";
 import { useStyles } from "./styles";
+import { Link } from "react-router-dom";
 
 type Props = {
     icon: ReactNode,
-    name: string
+    name: string,
+    path: string
 };
 
-export const SideBarItem = ({name, icon}: Props) => {
+export const SideBarItem = ({name, icon, path}: Props) => {
     const classes = useStyles();
 
     return (
-        <div className={classes.sideBarItem}>
+        <Link to={path} className={classes.sideBarItem}>
             {
                 icon
             }
@@ -20,6 +22,6 @@ export const SideBarItem = ({name, icon}: Props) => {
                 name
                 }
             </h1>
-        </div>
+        </Link>
     )
 };

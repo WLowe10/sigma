@@ -8,6 +8,7 @@ import "@fontsource/montserrat/500.css";
 import "reset-css";
 
 import "rc-slider/assets/index.css";
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

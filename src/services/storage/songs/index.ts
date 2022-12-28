@@ -2,6 +2,8 @@ import { Storage } from "../base";
 import { z } from "zod";
 import path from "path";
 import fs from "fs";
+import type { SongType } from "@global/types";
+import { v4 as uuidv4 } from "uuid";
 
 const songsSchema = z.object({
     songs: z.array(z.object({
@@ -12,10 +14,12 @@ const songsSchema = z.object({
     }))
 })
 
+
 //!get songs may be executed before default file is written
-type SongsType = z.infer<typeof songsSchema>;
  
 export class SongsStorage extends Storage {
+    protected basePath = "./songs";
+
     constructor() {
         super("./songs/songs.json", songsSchema);
     };
@@ -26,7 +30,13 @@ export class SongsStorage extends Storage {
         return data.songs;
     };
 
-    async writeThumbnail() {
+    async storeSong(song: SongType) {
+        let allSongData: any = await super.readFile();
+        allSongData.songs.push(song);
+        super.writeFile(allSongData)
+    };
+
+    protected async writeThumbnail() {
 
     };
 
