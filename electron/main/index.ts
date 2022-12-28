@@ -1,10 +1,11 @@
-process.env.DIST_ELECTRON = join(__dirname, '../..')
-process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
-process.env.PUBLIC = app.isPackaged ? process.env.DIST : join(process.env.DIST_ELECTRON, '../public')
-
 import { app, BrowserWindow, shell, ipcMain } from 'electron'
 import { release } from 'os'
 import { join } from 'path'
+import { createCommandHandler } from './commands'
+
+process.env.DIST_ELECTRON = join(__dirname, '../..')
+process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
+process.env.PUBLIC = app.isPackaged ? process.env.DIST : join(process.env.DIST_ELECTRON, '../public')
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
@@ -16,6 +17,8 @@ if (!app.requestSingleInstanceLock()) {
   app.quit()
   process.exit(0)
 }
+
+createCommandHandler();
 
 let win: BrowserWindow | null = null
 // Here, you can also use other preload
@@ -33,6 +36,7 @@ async function createWindow() {
     webPreferences: {
       preload,
       nodeIntegration: true,
+      webSecurity: false,
       contextIsolation: false,
     },
   })

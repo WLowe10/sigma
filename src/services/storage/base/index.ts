@@ -4,21 +4,19 @@ import { SomeZodObject } from "zod";
 export class Storage {
     protected filePath: string;
     protected schema: SomeZodObject;
-    // public initialized: boolean;
 
     constructor(filePath: string, schema: SomeZodObject) {
-        // this.initialized = false;
         this.filePath = filePath
         this.schema = schema;
-    }
+    };
 
     async init() {
         return await this.verifySchema();
-    }
+    };
 
     async writeFile(body: JSON) {
         await fs.writeFileSync(this.filePath, JSON.stringify(body))
-    }
+    };
 
     async readFile() {
         try {
@@ -30,7 +28,7 @@ export class Storage {
             let defaultSettings = await this.defaultSettings() as any;
             await this.writeFile(defaultSettings);
         }  
-    }
+    };
 
     async verifySchema() {
         let data = await this.readFile();
@@ -40,7 +38,7 @@ export class Storage {
             let defaultSettings = await this.defaultSettings() as any;
             await this.writeFile(defaultSettings);
         }
-    }
+    };
 
     defaultSettings() {}
 }

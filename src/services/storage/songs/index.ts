@@ -18,7 +18,7 @@ const songsSchema = z.object({
 //!get songs may be executed before default file is written
  
 export class SongsStorage extends Storage {
-    protected basePath = "./songs";
+    protected readonly basePath = "./songs";
 
     constructor() {
         super("./songs/songs.json", songsSchema);
@@ -26,7 +26,6 @@ export class SongsStorage extends Storage {
 
     async getSongs() {
         let data: any = await super.readFile();
-        console.log(data);
         return data.songs;
     };
 
@@ -34,10 +33,6 @@ export class SongsStorage extends Storage {
         let allSongData: any = await super.readFile();
         allSongData.songs.push(song);
         super.writeFile(allSongData)
-    };
-
-    protected async writeThumbnail() {
-
     };
 
     defaultSettings() {

@@ -37,7 +37,10 @@ export class SongDownloader {
 
     protected async downloadThumbnail(url: string) {
         if (!this.id) return;
-        let response = await axios.get(url);
+        let response = await axios.get(url, {
+           responseType: "stream"
+        });
+
         await response.data.pipe(fs.createWriteStream(`./songs/thumbnails/${this.id}.png`));
     };
 
@@ -67,6 +70,6 @@ export class SongDownloader {
             date: songInfo.date
         })
 
-        //await this.downloadThumbnail(songInfo.thumbnail.url)
+        await this.downloadThumbnail(songInfo.thumbnail.url)
     };
 }
