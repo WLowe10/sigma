@@ -5,7 +5,6 @@ import { SongsStorage } from '@services/storage';
 import { SongType } from '@global/types';
 import axios from 'axios';
 
-
 export class SongDownloader {
     protected id?: string;
     protected storage: SongsStorage;
