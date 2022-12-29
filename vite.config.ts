@@ -16,6 +16,7 @@ export default defineConfig({
       '@global': path.join(__dirname, 'src/global'),
       "@pages": path.join(__dirname, 'src/pages'),
       "@services": path.join(__dirname, 'src/services'), 
+      "@commands": path.join(__dirname, "src/commands")
     },
   },
   plugins: [

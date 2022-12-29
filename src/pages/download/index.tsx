@@ -3,18 +3,14 @@ import { SongDownloader } from "@services/song-downloader";
 import { useRef, useState } from "react";
 import { useStyles } from "./styles";
 import { toast } from "react-toastify";
+import { downloadSong } from "@commands/index";
 
 export const Download = () => {
     const classes = useStyles();
-    const songDownloader = useRef(new SongDownloader());
     const [urlValue, setUrlValue] = useState("");
 
-    const downloadHandler = async () => {
-        // if (!songDownloader.current.validate(urlValue)) {
-        //     return toast.error("A valid YouTube url is required")
-        // };
-        
-       songDownloader.current.download("https://www.youtube.com/watch?v=kvO_nHnvPtQ")
+    const downloadHandler = async () => {   
+        downloadSong();
     };
 
     return (

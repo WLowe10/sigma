@@ -16,7 +16,9 @@ export const downloadSong = async (url: string) => {
         downloadFunctions.downloadThumbnail(thumbnailUrl)
     ]);
 
-    audio.pipe(fs.createWriteStream(`./songs/audio/${id}.mp3`));
-    thumbnail.pipe(fs.createWriteStream(`./songs/thumbnails/${id}.png`))
+    await Promise.allSettled([
+        audio.pipe(fs.createWriteStream(`./songs/audio/${id}.mp3`)),
+        thumbnail.pipe(fs.createWriteStream(`./songs/thumbnails/${id}.png`))
+    ])
 };
 
