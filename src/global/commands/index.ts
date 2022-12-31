@@ -1,8 +1,8 @@
 import { ipcRenderer } from "electron";
 
 export const getSongs = async () => {
-    let response = await ipcRenderer.invoke("ALL:SONG");
-    console.log(response);
+    return await ipcRenderer.invoke("ALL:SONG");
+   
 };
 
 export const downloadSong = async (url: string) => {

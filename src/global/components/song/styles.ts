@@ -10,10 +10,14 @@ export const useStyles = createUseStyles({
         alignItems: "center"
     },
     thumbnail: {
+        // display: "flex",
+        // justifyContent: "center",
+        objectFit: "cover",
+        alignItems: "center",
         height: 64, 
         width: 64,
         borderRadius: 10,
-        backgroundColor: Theme.dark
+        overflow: "hidden"
     },
     songText: {
         fontFamily: Fonts.Montserrat, 
