@@ -7,7 +7,6 @@
 		"paths": {
       "@global/*": ["./global/*"],
       "@pages/*": ["./pages/*"],
-      "@commands/*": ["./commands/*"],
       "@services/*": ["./services/*"]
 		},
     "allowJs": false,

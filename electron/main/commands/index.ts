@@ -4,12 +4,16 @@ import { Commands } from "./commands";
 import * as songCommands from "./songs";
 
 export const createCommandHandler = () => {
+    ipcMain.handle(Commands.GetSongs, async (event, arg) => {
+        return songCommands.getSongs();
+    });
+
     ipcMain.handle(Commands.DownloadSong, async (event, arg) => {
-        return songCommands.downloadSong("https://www.youtube.com/watch?v=kvO_nHnvPtQ");
+        return songCommands.downloadSong(arg);
     });
 
     ipcMain.handle(Commands.RemoveSong, async (event, arg) => {
-        return songCommands.removeSong("https://www.youtube.com/watch?v=kvO_nHnvPtQ");
+        return songCommands.removeSong(arg);
     });
 };
 

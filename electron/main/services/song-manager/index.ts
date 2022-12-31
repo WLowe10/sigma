@@ -24,6 +24,12 @@ class SongManager {
         //?initialize storage location if non-existent
     };
 
+    public async getSongs() {
+        const data = await this.readJSON();
+
+        return data.songs;
+    };
+
     public async downloadSong(url: string) {
         if (!ytdl.validateURL(url)) return null;
 

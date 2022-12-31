@@ -1,16 +1,15 @@
 import { PageWrapper } from "@global/components";
-import { SongDownloader } from "@services/song-downloader";
 import { useRef, useState } from "react";
 import { useStyles } from "./styles";
 import { toast } from "react-toastify";
-import { downloadSong, removeSong } from "@commands/index";
+import { downloadSong, removeSong } from "@global/commands/index";
 
 export const Download = () => {
     const classes = useStyles();
     const [urlValue, setUrlValue] = useState("");
 
     const downloadHandler = async () => {   
-        removeSong();
+        downloadSong(urlValue);
     };
 
     return (
