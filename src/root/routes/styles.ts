@@ -1,10 +1,11 @@
 import { createUseStyles } from "react-jss";
 import { Theme } from "@global/constants/theme";
+import { Fonts, FontWeights } from "@global/constants/fonts";
 
 export const useStyles = createUseStyles({
     app: {
         backgroundColor: Theme.background,
-        flexDirection: "row"
+        flexDirection: "column"
     },
     sideBar: {
         display: "flex",
@@ -21,7 +22,11 @@ export const useStyles = createUseStyles({
     },
     mainContainer: {
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
+        flex: 1
+    },
+    pageContainer: {
+        display: "flex",
         flex: 1
     }
 });

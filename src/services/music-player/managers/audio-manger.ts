@@ -3,9 +3,6 @@ export class AudioManager {
 
     constructor() {
         this.audio = new Audio();
-        this.audio.src = "./song.mp3"
-
-        this.audio.volume = .25;
     };
 
     play() {
@@ -24,7 +21,7 @@ export class AudioManager {
         this.audio.src = path;
     };
 
-    setVolumeLevel(level: number) {
+    setVolume(level: number) {
         this.audio.volume = level;
     };
 }
