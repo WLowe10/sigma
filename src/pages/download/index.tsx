@@ -3,14 +3,14 @@ import { SongDownloader } from "@services/song-downloader";
 import { useRef, useState } from "react";
 import { useStyles } from "./styles";
 import { toast } from "react-toastify";
-import { downloadSong } from "@commands/index";
+import { downloadSong, removeSong } from "@commands/index";
 
 export const Download = () => {
     const classes = useStyles();
     const [urlValue, setUrlValue] = useState("");
 
     const downloadHandler = async () => {   
-        downloadSong();
+        removeSong();
     };
 
     return (

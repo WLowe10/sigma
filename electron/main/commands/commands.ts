@@ -1,3 +1,4 @@
 export enum Commands {
-    DownloadSong = "DOWNLOAD:SONG"
+    DownloadSong = "DOWNLOAD:SONG",
+    RemoveSong = "REMOVE:SONG"
 }
