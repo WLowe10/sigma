@@ -2,7 +2,9 @@ import { useStyles } from "./styles";
 import { Clock } from "react-feather";
 import { Theme } from "@global/constants/theme";
 import { useMusic } from "@services/music-player/hooks";
+import { useEffect, useState } from "react";
 import type { SongType } from "@global/types";
+import { useAudioDuration } from "@global/hooks";
 
 type Props = {
     song: SongType
@@ -10,8 +12,9 @@ type Props = {
 
 export const Song = ({ song }: Props) => {
     const classes = useStyles();
-    const { controls, state } = useMusic();
     const { id } = song;
+    const { controls, state } = useMusic();
+    const { duration } = useAudioDuration(`./songs/audio/${id}.mp3`)
 
     const selectSong = () => {
         controls.setSong(id);
@@ -41,7 +44,7 @@ export const Song = ({ song }: Props) => {
 
             <p className={classes.songText}>
                 {
-                    "1:00"
+                    duration ? duration : "-"
                 }
             </p>
         </button>

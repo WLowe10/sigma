@@ -41,8 +41,9 @@ export const AudioControls = () => {
             <Slider
                 value={vol}
                 defaultValue={50}
+                style={{maxWidth: "10rem"}}
                 trackStyle={{backgroundColor: Theme.fontColors.primary}}
-                railStyle={{backgroundColor: Theme.fontColors.secondary}}
+                railStyle={{backgroundColor: Theme.dark2}}
                 handleStyle={{backgroundColor: Theme.fontColors.primary, opacity: 1, border: "none"}}
                 onChange={(value: any) => setVol(value)}
             />

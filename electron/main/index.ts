@@ -34,9 +34,8 @@ async function createWindow() {
     minHeight: 720,
     minWidth: 1080,
     webPreferences: {
-      preload,
+      preload: preload,
       nodeIntegration: true,
-     // webSecurity: false,
       contextIsolation: false,
     },
   })
@@ -85,19 +84,14 @@ app.on('activate', () => {
   }
 })
 
-// new window example arg: new windows url
-ipcMain.handle('open-win', (event, arg) => {
-  const childWindow = new BrowserWindow({
-    webPreferences: {
-      preload,
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
-  })
-
-  if (process.env.VITE_DEV_SERVER_URL) {
-    childWindow.loadURL(`${url}#${arg}`)
-  } else {
-    childWindow.loadFile(indexHtml, { hash: arg })
+//handle window functions
+ipcMain.handle('ALTER:WIN', (_, arg) => {
+  switch (arg) {
+    case "MINIMIZE:WIN":
+      return win.minimize();
+    case "MAXIMIZE:WIN":
+      return win.maximize();
+    case "CLOSE:WIN":
+      return win.close();
   }
-})
+});

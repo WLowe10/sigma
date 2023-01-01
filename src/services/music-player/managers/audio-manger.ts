@@ -1,28 +1,47 @@
 class AudioManager {
-    private audio: HTMLAudioElement;
+    public audio: HTMLAudioElement;
+    private timeEvent: any;
 
     constructor() {
         this.audio = new Audio();
     };
 
-    play() {
+    public play() {
         this.audio.play();
     };
 
-    pause() {
+    public pause() {
         this.audio.pause();
     };
 
-    toggleLoop() {
+    public toggleLoop() {
         this.audio.loop = !this.audio.loop;
     };
 
-    setSource(path: string) {
+    public setSource(path: string) {
         this.audio.src = path;
     };
 
-    setVolume(level: number) {
+    public setVolume(level: number) {
         this.audio.volume = level;
+    };
+
+    public registerTimeEvent(cb: any) {
+        this.timeEvent = cb;
+        this.audio.addEventListener("timeupdate", (this.timeEvent));
+
+        // this.audio.addEventListener("timeupdate", (event) => {
+        //     event.ti
+        // });
+
+    };
+
+    public clearTimeEvent() {
+        this.audio.removeEventListener("timeupdate", (this.timeEvent))
+    }
+
+    public timeTravel() {
+       
     };
 }
 

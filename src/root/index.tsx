@@ -1,10 +1,13 @@
 import { Providers } from "./providers";
 import { Routes } from "./routes";
+import { globalStyles } from "./styles";
 
 export const Root = () => {
-   return (
-    <Providers>
-        <Routes />
-    </Providers>
-   )
+    globalStyles();
+
+    return (
+        <Providers>
+            <Routes />
+        </Providers>
+    );
 };

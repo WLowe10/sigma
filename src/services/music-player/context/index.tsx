@@ -5,12 +5,18 @@ export type MusicPlayerContextType = {
    controls: {
         play: () => void,
         pause: () => void,
+        toggleLoop: () => void,
         setSong: (id: string) => void,
-        setVolume: (level: number) => void
+        setVolume: (level: number) => void,
+        registerTimeEvent: (cb: any) => void,
+        clearTimeEvent: () => void,
    },
    state: {
-        playing: boolean,
-        activeSong: SongType | null
+     details: {
+          playing: boolean,
+          loop: boolean
+     }
+     activeSong: SongType | null
    }
 };
 
