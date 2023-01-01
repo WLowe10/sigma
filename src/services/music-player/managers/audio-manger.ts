@@ -1,4 +1,4 @@
-export class AudioManager {
+class AudioManager {
     private audio: HTMLAudioElement;
 
     constructor() {
@@ -25,3 +25,5 @@ export class AudioManager {
         this.audio.volume = level;
     };
 }
+
+export const audioManager = new AudioManager();

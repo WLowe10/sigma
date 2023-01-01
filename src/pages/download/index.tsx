@@ -2,14 +2,16 @@ import { PageWrapper } from "@global/components";
 import { useRef, useState } from "react";
 import { useStyles } from "./styles";
 import { toast } from "react-toastify";
-import { downloadSong, removeSong } from "@global/commands/index";
+import { useSongs } from "@services/songs/hooks";
 
 export const Download = () => {
+    const { controls } = useSongs();
     const classes = useStyles();
     const [urlValue, setUrlValue] = useState("");
 
     const downloadHandler = async () => {   
-        downloadSong(urlValue);
+        const song = await controls.downloadSong(urlValue);
+        toast.success(`Downloaded Song: ${song.title}`)
     };
 
     return (

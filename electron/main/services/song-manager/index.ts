@@ -49,14 +49,17 @@ class SongManager {
             audio.pipe(fs.createWriteStream(`./songs/audio/${id}.mp3`)),
             thumbnail.pipe(fs.createWriteStream(`./songs/thumbnails/${id}.png`))
         ])
-    
-        await this.storeSongRecord({
+
+        const song = {
             id: id,
             title: songInfo.title,
             artist: songInfo.artist,
             date: songInfo.date,
             url: url
-        })
+        };
+    
+        await this.storeSongRecord(song);
+        return song;
     };
 
     public async removeSong(id: string) {

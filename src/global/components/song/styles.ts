@@ -7,11 +7,15 @@ export const useStyles = createUseStyles({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: Theme.dark,
+        padding: 10,
+        border: "none",
+        "&:hover": {
+            cursor: "pointer"
+        }
     },
     thumbnail: {
-        // display: "flex",
-        // justifyContent: "center",
         objectFit: "cover",
         alignItems: "center",
         height: 64, 
@@ -20,6 +24,7 @@ export const useStyles = createUseStyles({
         overflow: "hidden"
     },
     songText: {
+        flex: 1,
         fontFamily: Fonts.Montserrat, 
         color: Theme.fontColors.secondary
     }

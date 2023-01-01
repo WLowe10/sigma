@@ -6,5 +6,6 @@ export const useStyles = createUseStyles({
         flex: 1, 
         alignItems: "center",
         justifyContent: "flex-end",
+        gap: 10
     }
 });

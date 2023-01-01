@@ -22,11 +22,11 @@ export const Routes = () => {
                 <BrowserRouter>
                     <div className={classes.sideBar}>
                         <SideBarItem name="Home" icon={<HomeIcon color={"White"} size={32}/>} path={RouteTypes.Home} />
-                        <SideBarItem name="Search" icon={<Search color={"White"} size={32}/>} path={RouteTypes.Home} />
                         <SideBarItem name="Library" icon={<Book color={"White"} size={32}/>} path={RouteTypes.Home} />
                         <SideBarItem name="Add Song" icon={<Plus color={"White"} size={32}/>} path={RouteTypes.Download} />
                     </div>
-                    <div className={classes.mainContainer}>
+
+                    <div className={classes.pageContainer}>
                         <NavRoutes>
                             <Route path={RouteTypes.Home} element={<Home />} />
                             <Route path={RouteTypes.Download} element={<Download />} />

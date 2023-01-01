@@ -1,5 +1,5 @@
-import { AudioManager } from "./audio-manger";
+import { audioManager } from "./audio-manger";
 
 export {
-    AudioManager
+    audioManager
 }

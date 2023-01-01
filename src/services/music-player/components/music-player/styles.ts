@@ -7,7 +7,8 @@ export const useStyles = createUseStyles({
         display: "flex",
         flexDirection: "row",
         backgroundColor: Theme.dark,
-        padding: "1rem"
+        padding: "1rem",
+        maxWidth: "100%",
     },
     info: {
         display: "flex",
@@ -16,10 +17,11 @@ export const useStyles = createUseStyles({
         alignItems: "center",
     },
     thumbnail: {
+        objectFit: "cover",
+        alignItems: "center",
         height: 64, 
         width: 64,
-        backgroundColor: "grey",
-        marginRight: 10
+        marginRight: 10,
     },
     songInfo: {
         display: "flex",

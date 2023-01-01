@@ -1,33 +1,38 @@
 import { useState, ReactNode, useRef } from "react";
 import { MusicPlayerContext } from "../context";
-import { AudioManager } from "../managers";
-import { createControls } from "./createControls";
+import { audioManager } from "../managers";
 import type { SongType } from "@global/types";
+import { useSongs } from "@services/songs/hooks";
 
 export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
-    const audioManager = useRef(new AudioManager());
     //const controls = createControls(audioManager);
-
+    const { songs } = useSongs();
+ 
     const [activeSong, setActiveSong] = useState<SongType | null>(null);
     const [playing, setPlaying] = useState(false);
 
     const controls = {
         play() {
             setPlaying(true);
-            audioManager.current.play();
+            audioManager.play();
         },
         pause() {
             setPlaying(false);
-            audioManager.current.pause();
+            audioManager.pause();
         },
         setSong(id: string) {
-            setActiveSong({
-                title: "Battle Hymn Of The Republic",
-                artist: "John Mcdermott"
-            })
+            this.pause() //pause audio if song is switched
+
+            if (!songs) return;
+            const song = songs.find(s => s.id == id);
+
+            if (song) {
+                setActiveSong(song);
+                audioManager.setSource(`./songs/audio/${song.id}.mp3`)
+            }
         },
         setVolume(level: number) {
-            audioManager.current.setVolume(level)
+            audioManager.setVolume(level)
         }
     };
 

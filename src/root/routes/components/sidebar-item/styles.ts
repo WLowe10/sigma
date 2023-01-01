@@ -9,7 +9,8 @@ export const useStyles = createUseStyles({
         width: "100%",
         flexDirection: "row",
         paddingLeft: "2rem",
-        gap: 20
+        gap: 20,
+        textDecoration: "none"
     },
     label: {
         fontFamily: Fonts.Montserrat,

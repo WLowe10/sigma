@@ -11,9 +11,14 @@ type Props = {
 export const Song = ({ song }: Props) => {
     const classes = useStyles();
     const { controls, state } = useMusic();
+    const { id } = song;
+
+    const selectSong = () => {
+        controls.setSong(id);
+    };
 
     return (
-        <div className={classes.song}>
+        <button className={classes.song} onClick={selectSong}>
             <img className={classes.thumbnail} src={`./songs/thumbnails/${song.id}.png`} />
 
             <p className={classes.songText}>
@@ -34,7 +39,11 @@ export const Song = ({ song }: Props) => {
                 }
             </p>
 
-            <Clock color={Theme.fontColors.secondary}/>
-        </div>
+            <p className={classes.songText}>
+                {
+                    "1:00"
+                }
+            </p>
+        </button>
     )
 };

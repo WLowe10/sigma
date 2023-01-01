@@ -7,7 +7,9 @@ export const getSongs = async () => {
 
 export const downloadSong = async (url: string) => {
     let response = await ipcRenderer.invoke("DOWNLOAD:SONG", url);
-    console.log(response);
+
+    //!needs error handling
+    return response;
 };
 
 export const removeSong = async () => {
