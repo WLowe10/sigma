@@ -3,8 +3,8 @@ import { Clock } from "react-feather";
 import { Theme } from "@global/constants/theme";
 import { useMusic } from "@services/music-player/hooks";
 import { useEffect, useState } from "react";
-import type { SongType } from "@global/types";
 import { useAudioDuration } from "@global/hooks";
+import type { SongType } from "@global/types";
 
 type Props = {
     song: SongType

@@ -2,7 +2,7 @@ import { createUseStyles } from "react-jss";
 
 export const useStyles = createUseStyles({
     pageWrapper: {
-        overflow: "auto",
+        overflow: "overlay",
         position: "absolute",
         top: 0, 
         left: 0,

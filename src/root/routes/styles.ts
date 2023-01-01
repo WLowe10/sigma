@@ -6,7 +6,6 @@ export const useStyles = createUseStyles({
     app: {
         backgroundColor: Theme.background,
         flexDirection: "column",
-        overflow: "clip"
     },
     sideBar: {
         display: "flex",

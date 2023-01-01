@@ -3,6 +3,9 @@ import { createUseStyles } from "react-jss";
 
 export const globalStyles = createUseStyles({
     "@global": {
+        body: {
+            overflowY: "overlay"
+        },
         "::-webkit-scrollbar-track": {
             backgroundColor: "transparent"
         },
