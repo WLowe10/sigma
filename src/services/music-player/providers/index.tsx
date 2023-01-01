@@ -51,16 +51,16 @@ export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
     const details = {
         loop: looping,
         playing: playing, 
-    }
+    };
 
     const state = {
         details,
         activeSong
-    }
+    };
    
 
     return (
-        <MusicPlayerContext.Provider value={{ controls, state }}>
+        <MusicPlayerContext.Provider value={{ audioObj: audioManager.audio, controls, state }}>
             {
                 children
             }

@@ -19,7 +19,7 @@ export const useStyles = createUseStyles({
     },
     title: {
         fontFamily: Fonts.Montserrat,
-        fontWeight: FontWeights.Montserrat[500],
+        fontWeight: FontWeights.Montserrat[600],
         color: Theme.fontColors.primary,
         fontSize: "2rem"
     },

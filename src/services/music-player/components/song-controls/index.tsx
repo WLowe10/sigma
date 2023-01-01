@@ -11,28 +11,33 @@ import { convertSeconds } from "@global/utils";
 
 export const SongControls = () => {
     const classes = useStyles();
-    const { controls, state } = useMusic();
+    const { audioObj, controls, state } = useMusic();
     const activeSongId = state.activeSong?.id;
     const { duration, durationInSecs } = useAudioDuration(`./songs/audio/${activeSongId}.mp3`);
     const [progress, setProgress] = useState(0);
     const [formattedProgress, setFormattedProgress] = useState<string>("0:00");
-
+    const details = state.details;
     // todo add ability to drag slider
 
+    //console.log("rendered")
+
+
+    //!this needs to be reworked
     useEffect(() => {
         if (!durationInSecs) return;
         setProgress(0)
 
         const interval = setInterval(() => {
-            //!should access this through context
-            const timeStamp = audioManager.audio.currentTime;       
+            //if (!details.playing) return;
+
+            const timeStamp = audioObj.currentTime;       
             setProgress((timeStamp / durationInSecs) * 100)
             setFormattedProgress(convertSeconds(Math.floor(timeStamp)))
         }, 100)
 
         return () => {
             clearInterval(interval)
-        }
+        };
     }, [duration])
 
     return (

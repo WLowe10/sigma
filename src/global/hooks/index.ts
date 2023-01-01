@@ -7,7 +7,6 @@ export const useAudioDuration = (src: string) => {
 
     const getDuration = async () => {
         let dur = await getAudioDuration(src);
-
         setDuration(convertSeconds(dur));
         setDurationInSecs(dur);
     };
