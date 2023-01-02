@@ -4,6 +4,7 @@ import { useStyles } from "./styles";
 import { Home as HomeIcon, Search, Book } from "react-feather";
 import { useMusic } from "@services/music-player/hooks";
 import { useSongs } from "@services/songs/hooks";
+import { AnimatePresence } from "framer-motion";
 
 export const Home = () => {
     const classes = useStyles();
@@ -25,10 +26,12 @@ export const Home = () => {
             </div>
            
             <div className={classes.songContainer}>
+                <AnimatePresence>
                 {
                     songs && (search ? songs.map((song, index) => song.title.toLowerCase().includes(search.toLowerCase()) ? <Song song={song} key={index}/> : null) 
                         : songs.map((song, index) => <Song song={song} key={index}/>))
                 }
+                </AnimatePresence>
             </div>
        </PageWrapper>
     )
