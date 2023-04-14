@@ -1,28 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "baseUrl": "./src",
-		"paths": {
-      "@global/*": ["./global/*"],
-      "@pages/*": ["./pages/*"],
-      "@services/*": ["./services/*"]
-		},
-    "allowJs": false,
-    "skipLibCheck": true,
-    "esModuleInterop": false,
-    "allowSyntheticDefaultImports": true,
+    "incremental": true,
+    "target": "es2021",
+    "module": "commonjs",
+    "lib": ["dom", "es2021"],
+    "jsx": "react-jsx",
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "sourceMap": true,
+    "baseUrl": "./src",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+    "allowJs": true,
+    "outDir": ".erb/dll"
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["test", "release/build", "release/app/dist", ".erb/dll"]
 }
-
