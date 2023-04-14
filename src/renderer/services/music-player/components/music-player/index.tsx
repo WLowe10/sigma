@@ -1,8 +1,8 @@
-import { useStyles } from "./styles";
-import { useMusic } from "@services/music-player/hooks";
+import { useMusic } from "@renderer/services/music-player/hooks";
 import { SongControls } from "../song-controls";
 import { AudioControls } from "../audio-controls";
 import { motion, AnimatePresence} from "framer-motion";
+import { Flex, Stack, Image } from "@chakra-ui/react";
 
 const variants = {
     open: {
@@ -22,14 +22,18 @@ const variants = {
 }
 
 export const MusicPlayer = () => {
-    const classes = useStyles();
     const { controls, state } = useMusic();
 
     return (
-        <AnimatePresence>
-            {
-                state.activeSong && <motion.div className={classes.musicPlayer} animate={variants.open}  initial={variants.closed} exit={variants.closed}>
-                <div className={classes.info}>
+        <Flex bg={"blackAlpha.500"} width={"100%"}>
+            <Stack direction={"row"}>
+
+            </Stack>
+        </Flex>
+    )
+};
+
+                /* <div className={classes.info}>
                     <img className={classes.thumbnail} src={`./songs/thumbnails/${state.activeSong.id}.png`} />
                     <div className={classes.songInfo}>
                         <p className={classes.songTitle}>
@@ -44,12 +48,6 @@ export const MusicPlayer = () => {
                         </p>
                     </div>
                 </div>
-    
-               <SongControls />
-               <AudioControls />
-            </motion.div>
-            }
-        
-        </AnimatePresence>
-    )
-};
+     */
+               /* <SongControls />
+               <AudioControls /> */

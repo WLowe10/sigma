@@ -1,16 +1,13 @@
 import { useEffect, useState, useRef } from "react";
-import { useStyles } from "./styles";
-import Slider from 'rc-slider';
-import { useMusic } from "@services/music-player/hooks";
-import { Theme } from "@global/constants/theme";
+import { useMusic } from "@renderer/services/music-player/hooks";
 import { VolumeX, Volume } from "react-feather";
+import { Slider } from "@chakra-ui/react";
 
 export const AudioControls = () => {
     const [vol, setVol] = useState(50);
     const [muted, setMuted] = useState(false);
     const lastVolumeLevel = useRef(50);
     const { controls } = useMusic();
-    const classes = useStyles();
 
     useEffect(() => {
         controls.setVolume(vol / 100)
@@ -34,17 +31,17 @@ export const AudioControls = () => {
     };
 
     return (
-        <div className={classes.audioControls}>
+        <div>
             {
-                muted ? <VolumeX onClick={toggleMuted} color={Theme.fontColors.secondary}/> :  <Volume onClick={toggleMuted} color={Theme.fontColors.secondary}/>
+                // muted ? <VolumeX onClick={toggleMuted} color={Theme.fontColors.secondary}/> :  <Volume onClick={toggleMuted} color={Theme.fontColors.secondary}/>
             }
             <Slider
                 value={vol}
                 defaultValue={50}
                 style={{maxWidth: "10rem"}}
-                trackStyle={{backgroundColor: Theme.fontColors.primary}}
-                railStyle={{backgroundColor: Theme.dark2}}
-                handleStyle={{backgroundColor: Theme.fontColors.primary, opacity: 1, border: "none"}}
+                // trackStyle={{backgroundColor: Theme.fontColors.primary}}
+                // railStyle={{backgroundColor: Theme.dark2}}
+                // handleStyle={{backgroundColor: Theme.fontColors.primary, opacity: 1, border: "none"}}
                 onChange={(value: any) => setVol(value)}
             />
         </div>

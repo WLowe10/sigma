@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import { PageWrapper, Song } from "@global/components";
-import { useStyles } from "./styles";
 import { Home as HomeIcon, Search, Book } from "react-feather";
-import { useMusic } from "@services/music-player/hooks";
-import { useSongs } from "@services/songs/hooks";
+import { useMusic } from "@renderer/services/music-player/hooks";
+import { useSongs } from "@renderer/services/songs/hooks";
 import { AnimatePresence } from "framer-motion";
+import { Flex, Heading } from "@chakra-ui/react";
 
 export const Home = () => {
-    const classes = useStyles();
     const { songs } = useSongs();
     const [search, setSearch] = useState<string | null>(null);
 
@@ -16,23 +14,10 @@ export const Home = () => {
     }, [search])
 
     return (
-       <PageWrapper className={classes.homeContainer}>
-            <div className={classes.topRow}>
-                <h1 className={classes.title}>
-                    Songs
-                </h1>
-
-                <input placeholder={"ex: Lacrimosa"} onChange={(e) => setSearch(e.target.value)}/>
-            </div>
-           
-            <div className={classes.songContainer}>
-                <AnimatePresence>
-                {
-                    songs && (search ? songs.map((song, index) => song.title.toLowerCase().includes(search.toLowerCase()) ? <Song song={song} key={index}/> : null) 
-                        : songs.map((song, index) => <Song song={song} key={index}/>))
-                }
-                </AnimatePresence>
-            </div>
-       </PageWrapper>
+        <Flex>
+            <Heading>
+                Home
+            </Heading>
+        </Flex>
     )
 };

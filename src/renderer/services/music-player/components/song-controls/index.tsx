@@ -1,16 +1,14 @@
 import { useState } from "react";
-import { useStyles } from "./styles";
 import { Play, Pause, SkipBack, SkipForward, Repeat, Shuffle } from "react-feather";
-import { Theme } from "@global/constants/theme";
-import { useMusic } from "@services/music-player/hooks";
+import { useMusic } from "@renderer/services/music-player/hooks";
 import { useEffect } from "react";
-import { useAudioDuration } from "@global/hooks";
-import Slider from "rc-slider";
-import { audioManager } from "@services/music-player/managers"; 
-import { convertSeconds } from "@global/utils";
+import { useAudioDuration } from "@renderer/global/hooks";
+import { audioManager } from "@renderer/services/music-player/managers"; 
+import { convertSeconds } from "@renderer/global/utils";
+import { Theme } from "@renderer/global/constants/theme";
+import { Slider } from "@chakra-ui/react";
 
 export const SongControls = () => {
-    const classes = useStyles();
     const { audioObj, controls, state } = useMusic();
     const activeSongId = state.activeSong?.id;
     const { duration, durationInSecs } = useAudioDuration(`./songs/audio/${activeSongId}.mp3`);
@@ -41,53 +39,54 @@ export const SongControls = () => {
     }, [duration])
 
     return (
-        <div className={classes.songControls}>
-            <div className={classes.row}>
-                <button className={classes.controlButton}>
-                    <Repeat color={state.details.loop ? Theme.accents.blue : Theme.fontColors.secondary} size={20} onClick={() => controls.toggleLoop()}/>
-                </button>
+        // <div className={classes.songControls}>
+        //     <div className={classes.row}>
+        //         <button className={classes.controlButton}>
+        //             <Repeat color={state.details.loop ? Theme.accents.blue : Theme.fontColors.secondary} size={20} onClick={() => controls.toggleLoop()}/>
+        //         </button>
 
-                <button className={classes.controlButton}>
-                    <SkipBack color={Theme.fontColors.secondary} size={20}/>
-                </button>
+        //         <button className={classes.controlButton}>
+        //             <SkipBack color={Theme.fontColors.secondary} size={20}/>
+        //         </button>
 
-                <button className={classes.mainButton} onClick={() => state.details.playing ? controls.pause() : controls.play()}>
-                    {
-                        state.details.playing? <Pause size={20}/> : <Play size={20}/>
-                    }
-                </button>
+        //         <button className={classes.mainButton} onClick={() => state.details.playing ? controls.pause() : controls.play()}>
+        //             {
+        //                 state.details.playing? <Pause size={20}/> : <Play size={20}/>
+        //             }
+        //         </button>
 
-                <button className={classes.controlButton}>
-                    <SkipForward color={Theme.fontColors.secondary} size={20}/>
-                </button>
+        //         <button className={classes.controlButton}>
+        //             <SkipForward color={Theme.fontColors.secondary} size={20}/>
+        //         </button>
 
-                <button className={classes.controlButton}>
-                    <Shuffle color={Theme.fontColors.secondary} size={20}/>
-                </button>
-            </div>
+        //         <button className={classes.controlButton}>
+        //             <Shuffle color={Theme.fontColors.secondary} size={20}/>
+        //         </button>
+        //     </div>
 
-            <div className={classes.row}>
-                <p className={classes.durationText}>
-                    {
-                        formattedProgress
-                    }
-                </p>
+        //     <div className={classes.row}>
+        //         <p className={classes.durationText}>
+        //             {
+        //                 formattedProgress
+        //             }
+        //         </p>
 
-                <Slider 
-                    value={progress}
-                    defaultValue={0}
-                    trackStyle={{backgroundColor: Theme.fontColors.primary}}
-                    railStyle={{backgroundColor: Theme.dark2}}
-                    handleStyle={{backgroundColor: Theme.fontColors.primary, opacity: 1, border: "none"}}
-                />
+        //         <Slider 
+        //             value={progress}
+        //             defaultValue={0}
+        //             // trackStyle={{backgroundColor: Theme.fontColors.primary}}
+        //             // railStyle={{backgroundColor: Theme.dark2}}
+        //             // handleStyle={{backgroundColor: Theme.fontColors.primary, opacity: 1, border: "none"}}
+        //         />
 
-                <p className={classes.durationText}>
-                    {
-                        duration
-                    }
-                </p>
-            </div>
+        //         <p className={classes.durationText}>
+        //             {
+        //                 duration
+        //             }
+        //         </p>
+        //     </div>
                 
-        </div>
+        // </div>
+        null
     )
 };

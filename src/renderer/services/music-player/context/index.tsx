@@ -1,5 +1,5 @@
 import React from "react";
-import type { SongType } from "@global/types";
+import type { SongType } from "@renderer/global/types";
 
 export type MusicPlayerContextType = {
      audioObj: HTMLAudioElement
