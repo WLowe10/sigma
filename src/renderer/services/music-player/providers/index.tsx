@@ -2,7 +2,7 @@ import { useState, ReactNode, useRef } from "react";
 import { MusicPlayerContext } from "../context";
 import { audioManager } from "../managers";
 import { useSongs } from "@renderer/services/songs/hooks";
-import type { SongType } from "@renderer/global/types";
+import type { SongType } from "@renderer/types";
 
 export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
     const { songs } = useSongs();
@@ -59,7 +59,11 @@ export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
     };
 
     return (
-        <MusicPlayerContext.Provider value={{ audioObj: audioManager.audio, controls, state }}>
+        <MusicPlayerContext.Provider value={{ 
+            audioObj: audioManager.audio, 
+            controls, 
+            state 
+        }}>
             {
                 children
             }

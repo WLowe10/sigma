@@ -58,7 +58,7 @@ class SongManager {
             url: url
         };
     
-        await this.storeSongRecord(song);
+        // await this.storeSongRecord(song);
         return song;
     };
 

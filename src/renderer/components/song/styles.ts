@@ -1,5 +1,5 @@
-// import { Fonts } from "@renderer/global/constants/fonts";
-// import { Theme } from "@renderer/global/constants/theme";
+// import { Fonts } from "@renderer/constants/fonts";
+// import { Theme } from "@renderer/constants/theme";
 // import { createUseStyles } from "react-jss";
 
 // export const useStyles = createUseStyles({

@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Play, Pause, SkipBack, SkipForward, Repeat, Shuffle } from "react-feather";
 import { useMusic } from "@renderer/services/music-player/hooks";
 import { useEffect } from "react";
-import { useAudioDuration } from "@renderer/global/hooks";
+import { useAudioDuration } from "@renderer/hooks";
 import { audioManager } from "@renderer/services/music-player/managers"; 
-import { convertSeconds } from "@renderer/global/utils";
-import { Theme } from "@renderer/global/constants/theme";
+import { convertSeconds } from "@renderer/utils";
+import { Theme } from "@renderer/constants/theme";
 import { Slider } from "@chakra-ui/react";
 
 export const SongControls = () => {

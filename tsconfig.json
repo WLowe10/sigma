@@ -9,6 +9,8 @@
     "sourceMap": true,
     "baseUrl": "./src",
     "paths": {
+      "@global/*": ["./global/*"],
+      "@main/*": ["./main/*"],
       "@renderer/*": ["./renderer/*"]
     },
     "moduleResolution": "node",

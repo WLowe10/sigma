@@ -14,6 +14,11 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+import Store from "electron-store";
+import { createSettingsCommands } from './commands/settings';
+import { createSongsCommands } from './commands/songs';
+
+const store = new Store();
 
 class AppUpdater {
   constructor() {
@@ -135,3 +140,8 @@ app
     });
   })
   .catch(console.log);
+
+///////IPC
+
+createSettingsCommands(store);
+createSongsCommands(store);

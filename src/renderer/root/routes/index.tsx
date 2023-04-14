@@ -3,13 +3,13 @@ import { Children, ReactNode } from "react";
 import { Home as HomeIcon, Search, Book, Plus, Grid } from "react-feather";
 import { BrowserRouter, Routes as NavRoutes, Route } from "react-router-dom";
 import { Flex } from "@chakra-ui/react";
-import { SideBar } from "@renderer/global/components";
+import { SideBar } from "@renderer/components";
 
 //* Pages */
 import { Home, Download } from "@renderer/pages/index";
 
 // import { MusicPlayer } from "@renderer/services/music-player/components";
-import { RouteTypes } from "@renderer/global/constants/routes";
+import { RouteTypes } from "@renderer/constants/routes";
 import { MusicPlayer } from "@renderer/services/music-player/components";
 
 export const Routes = () => {

@@ -6,26 +6,32 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    Heading,
     FormControl, 
     FormLabel,
     Input,
     Button,
     Center
 } from "@chakra-ui/react"
+import { useSongs } from "../../hooks";
 
 type Props = {
     open: boolean
 };
 
 export const SongDownloadModal = ({ open }: Props) => {
+    const { controls } = useSongs();
+
+    const handleDownload = () => {
+        controls.downloadSong("dwdaw");
+    };
+
     return (
-        <Modal isOpen={true} isCentered={true} onClose={() => {}}>
+        <Modal isOpen={open} isCentered={true} onClose={() => {}}>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>
                     Song Download
-                    <ModalCloseButton />
+                    <ModalCloseButton onClick={controls.closeDownloader}/>
                 </ModalHeader>
 
                 <ModalBody>
@@ -39,12 +45,11 @@ export const SongDownloadModal = ({ open }: Props) => {
                 </ModalBody>
                 <ModalFooter>
                     <Center width={"100%"}>
-                        <Button>
+                        <Button onClick={handleDownload}>
                             Download
                         </Button>
                     </Center>
                 </ModalFooter>
-
             </ModalContent>
         </Modal>
     )

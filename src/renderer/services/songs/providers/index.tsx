@@ -1,37 +1,50 @@
 import { useEffect, useState, ReactNode } from "react";
 import { SongsContext } from "../context";
-
-// import * as songCommands from "@global/commands";
-import { SongType } from "@renderer/global/types";
+import { SongType } from "@renderer/types";
 import { SongDownloadModal } from "../modals";
 
 export const SongsProvider = ({ children }: { children: ReactNode }) => {
+    const [open, setOpen] = useState(false);
     const [songs, setSongs] = useState<SongType[]>([]);
 
-    const downloadSong = async (url: string) => {
-        // const newSong = await songCommands.downloadSong(url);
+    const handleDownloadSong = async (url: string) => {
+        // const newSong = await window.electron..downloadSong(url);
 
         // let newSongs = [...songs, newSong];
         // setSongs(newSongs);
 
         // return newSong;
+        const songData = await window.electron.songsService.downloadSong("https://www.youtube.com/watch?v=aelpqWEBHR4")
+        console.log(songData)
     };
 
-    const getSongs = async () => {
+    const handleGetSongs = async () => {
         // const allSongs = await songCommands.getSongs();
         // setSongs(allSongs);
     };
 
+    const handleDownloadOpen = () => {
+        setOpen(true);
+    };
+
+    const handleDownloadClose = () => {
+        setOpen(false);
+    };
+
     useEffect(() => {
-        getSongs();
+        handleGetSongs();
     }, []);
 
-    const controls = {
-        downloadSong
-    }
-
     return (
-        <SongsContext.Provider value={{songs, controls}}>
+        <SongsContext.Provider value={{
+            songs, 
+            controls: {
+                openDownloader: handleDownloadOpen,
+                closeDownloader: handleDownloadClose,
+                downloadSong: handleDownloadSong
+            }
+        }}>
+            <SongDownloadModal open={open}/>
             {
                 children
             }
