@@ -8,12 +8,12 @@ export const SideBar = () => {
         <Stack direction={"column"} spacing={4} bg="gray.900" p={4}>
             <Box>
                 <Link to={RouteTypes.Home}>
-                    <Home />
+                    <Home color={"white"} />
                 </Link>
             </Box>
             <Box>
                 <Link to={RouteTypes.Download}>
-                    <Download />
+                    <Download color={"white"} />
                 </Link>
             </Box>
         </Stack>

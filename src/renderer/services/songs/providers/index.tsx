@@ -3,6 +3,7 @@ import { SongsContext } from "../context";
 
 // import * as songCommands from "@global/commands";
 import { SongType } from "@renderer/global/types";
+import { SongDownloadModal } from "../modals";
 
 export const SongsProvider = ({ children }: { children: ReactNode }) => {
     const [songs, setSongs] = useState<SongType[]>([]);
