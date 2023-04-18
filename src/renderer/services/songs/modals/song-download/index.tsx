@@ -10,8 +10,10 @@ import {
     FormLabel,
     Input,
     Button,
-    Center
+    Center,
+    FormErrorMessage
 } from "@chakra-ui/react"
+import { useForm } from "react-hook-form";
 import { useSongs } from "../../hooks";
 
 type Props = {
@@ -19,19 +21,25 @@ type Props = {
 };
 
 export const SongDownloadModal = ({ open }: Props) => {
-    const { controls } = useSongs();
+    const {
+        register, 
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
-    const handleDownload = () => {
-        controls.downloadSong("dwdaw");
-    };
+    const { state: songsState, controls: songsControls } = useSongs();
+
+    const handleDownload = handleSubmit((data) => {
+        songsControls.addSong(data.url);
+    });
 
     return (
         <Modal isOpen={open} isCentered={true} onClose={() => {}}>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>
-                    Song Download
-                    <ModalCloseButton onClick={controls.closeDownloader}/>
+                    Add Song 
+                    <ModalCloseButton onClick={songsControls.closeDownloader}/>
                 </ModalHeader>
 
                 <ModalBody>
@@ -39,13 +47,18 @@ export const SongDownloadModal = ({ open }: Props) => {
                         <FormLabel>
                             Youtube URL
                         </FormLabel>
-                        <Input/>
+                        <Input {...register("url", {
+                            required: "URL is required"
+                        })}/>
+                        <FormErrorMessage>
+                            oops
+                        </FormErrorMessage>
                     </FormControl>
 
                 </ModalBody>
                 <ModalFooter>
                     <Center width={"100%"}>
-                        <Button onClick={handleDownload}>
+                        <Button onClick={handleDownload} isLoading={songsState.downloading}>
                             Download
                         </Button>
                     </Center>

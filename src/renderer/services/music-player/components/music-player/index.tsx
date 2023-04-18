@@ -2,34 +2,55 @@ import { useMusic } from "@renderer/services/music-player/hooks";
 import { SongControls } from "../song-controls";
 import { AudioControls } from "../audio-controls";
 import { motion, AnimatePresence} from "framer-motion";
-import { Flex, Stack, Image } from "@chakra-ui/react";
-
-const variants = {
-    open: {
-        marginBottom: 0,
-        transition: {
-            type: "spring",
-            duration: .25,
-        }
-    },
-    closed: {
-        marginBottom: -100,
-        transition: {
-            type: "spring",
-            duration: .25,
-        }
-    }
-}
+import { Flex, Stack, Image, Text, Center, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, SlideFade } from "@chakra-ui/react";
+import { IconPlayerPlayFilled, IconPlayerPauseFilled, IconPlayerSkipBackFilled, IconPlayerSkipForwardFilled } from "@tabler/icons-react";
 
 export const MusicPlayer = () => {
-    const { controls, state } = useMusic();
+    const { controls: musicControls, state: musicState } = useMusic();
+
+    if (!musicState.activeSong) return null;
 
     return (
-        <Flex bg={"blackAlpha.500"} width={"100%"}>
-            <Stack direction={"row"}>
+        <Box borderTopWidth={"1px"}>
+            <Flex width={"100%"} justify={"space-between"}>
+                <Stack direction={"row"} alignItems={"center"} flex={1}>
+                    <Image src={musicState.activeSong.thumbnail} height={"5rem"} objectFit={"cover"}/>
+                    <Stack direction={"column"}>
+                        <Text>
+                            {
+                                musicState.activeSong.title
+                            }
+                        </Text>
+                        <Text>
+                            {
+                                musicState.activeSong.artist
+                            }
+                        </Text>
+                    </Stack>
+                </Stack>
 
-            </Stack>
-        </Flex>
+                <Stack direction={"row"} spacing={"6"} justifyContent={"center"} alignItems={"center"} flex={1}>
+                    <IconPlayerSkipBackFilled />
+                    {
+                        musicState.playing ? (
+                            <IconPlayerPauseFilled onClick={musicControls.pause}/>
+                        ) : (
+                            <IconPlayerPlayFilled onClick={musicControls.play}/>
+                        )
+                    }
+                    <IconPlayerSkipForwardFilled />
+                </Stack>
+
+                <Stack direction={"column"} justifyContent={"center"} alignItems={"center"} flex={1}>
+                    <Slider orientation={"horizontal"} defaultValue={30} w={"50%"}>
+                        <SliderTrack>
+                            <SliderFilledTrack />
+                        </SliderTrack>
+                        <SliderThumb />
+                    </Slider>
+                </Stack>
+            </Flex>
+        </Box>
     )
 };
 

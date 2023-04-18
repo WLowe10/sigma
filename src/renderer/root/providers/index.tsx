@@ -5,7 +5,7 @@ import { SongsProvider } from "@renderer/services/songs/providers";
 
 export const Providers = ({ children }: { children: ReactNode }) => {
     return (
-        <ChakraProvider>
+        <ChakraProvider resetCSS={true}>
             <SongsProvider>
                 <MusicPlayerProvider>
                     {  children }

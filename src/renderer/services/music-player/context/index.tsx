@@ -1,22 +1,20 @@
 import React from "react";
-import type { SongType } from "@renderer/types";
+import type { SongType } from "@global/types";
 
 export type MusicPlayerContextType = {
-     audioObj: HTMLAudioElement
      controls: {
+          setSong: (id: string) => void,
           play: () => void,
           pause: () => void,
-          toggleLoop: () => void,
-          setSong: (id: string) => void,
-          setVolume: (level: number) => void,
-          registerTimeEvent: (cb: any) => void,
-          clearTimeEvent: () => void,
+          loop: () => void,
+          // toggleLoop: () => void,
+          // setVolume: (level: number) => void,
+          // registerTimeEvent: (cb: any) => void,
+          // clearTimeEvent: () => void,
      },
      state: {
-          details: {
-               playing: boolean,
-               loop: boolean
-          }
+          playing: boolean,
+          looping: boolean
           activeSong: SongType | null
      }
 };

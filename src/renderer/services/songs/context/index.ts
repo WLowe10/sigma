@@ -1,12 +1,15 @@
-import { SongType } from "@renderer/types";
+import { SongType } from "@global/types";
 import React from "react";
 
 export type SongsContextType = {
-    songs: SongType[] | null,
+    state: {
+        downloading: boolean
+    },
     controls: {
         openDownloader: () => void,
         closeDownloader: () => void,
-        downloadSong: (url: string) => Promise<SongType>;
+        addSong: (url: string) => void;
+        deleteSongs: (idArr: Array<string>) => void;
     }
 };
 

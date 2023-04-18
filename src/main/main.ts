@@ -86,6 +86,13 @@ const createWindow = async () => {
     },
   });
 
+  createSettingsCommands(store);
+
+  createSongsCommands({
+    window: mainWindow,
+    store: store
+  });
+
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 
   mainWindow.on('ready-to-show', () => {
@@ -143,5 +150,3 @@ app
 
 ///////IPC
 
-createSettingsCommands(store);
-createSongsCommands(store);

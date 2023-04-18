@@ -1,26 +1,39 @@
 import { useEffect, useState, ReactNode } from "react";
 import { SongsContext } from "../context";
-import { SongType } from "@renderer/types";
+import { SongType } from "@global/types";
 import { SongDownloadModal } from "../modals";
+import { useSongsStore } from "../store";
+import { IpcKeys } from "@global/constants";
+import { Howl } from "howler";
+import { all } from "axios";
 
 export const SongsProvider = ({ children }: { children: ReactNode }) => {
     const [open, setOpen] = useState(false);
-    const [songs, setSongs] = useState<SongType[]>([]);
-
-    const handleDownloadSong = async (url: string) => {
-        // const newSong = await window.electron..downloadSong(url);
-
-        // let newSongs = [...songs, newSong];
-        // setSongs(newSongs);
-
-        // return newSong;
-        const songData = await window.electron.songsService.downloadSong("https://www.youtube.com/watch?v=aelpqWEBHR4")
-        console.log(songData)
-    };
+    const [downloading, setDownloading] = useState(false);
+    const addSongs = useSongsStore(state => state.addSongs);
+    const deleteSongs = useSongsStore(state => state.deleteSongs);
 
     const handleGetSongs = async () => {
-        // const allSongs = await songCommands.getSongs();
-        // setSongs(allSongs);
+        const songs = await window.electron.songsService.getSongs();
+        if (songs) addSongs(songs);
+    };
+
+    const handleAddSong = async (url: string) => {
+        setDownloading(true);
+
+        const newSong = await window.electron.songsService.addSong(url);
+        addSongs([newSong]);
+
+        setDownloading(false);
+    };
+
+    const handleDeleteSongs = (idArr: Array<string>) => {
+        window.electron.songsService.deleteSong(idArr);
+        deleteSongs(idArr);
+    };
+
+    const handlePlaySong = () => {
+        
     };
 
     const handleDownloadOpen = () => {
@@ -37,11 +50,14 @@ export const SongsProvider = ({ children }: { children: ReactNode }) => {
 
     return (
         <SongsContext.Provider value={{
-            songs, 
+            state: {
+                downloading: downloading
+            },
             controls: {
                 openDownloader: handleDownloadOpen,
                 closeDownloader: handleDownloadClose,
-                downloadSong: handleDownloadSong
+                addSong: handleAddSong,
+                deleteSongs: handleDeleteSongs
             }
         }}>
             <SongDownloadModal open={open}/>

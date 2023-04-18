@@ -1,80 +1,68 @@
-import { Clock } from "react-feather";
 import { useMusic } from "@renderer/services/music-player/hooks";
 import { useEffect, useState } from "react";
 import { useAudioDuration } from "@renderer/hooks";
 import { motion } from "framer-motion"  
-import type { SongType } from "@renderer/types";
-import { Button, Card, Text, Image, CardHeader, CardBody } from "@chakra-ui/react";
+import { Button, Card, Text, Image, CardHeader, CardBody, Stack, Tr, Td, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
+import { IconDotsVertical } from "@tabler/icons-react";
+import type { SongType } from "@global/types";
+import { useSongs } from "@renderer/services/songs/hooks";
 
 type Props = {
     song: SongType
 };
 
-const variants = {
-    hidden: {
-        opacity: 0,
-        height: 0,
-        scale: 0,
-        transition: {
-            type: "spring",
-            duration: .25
-        }
-    },
-    showing: {
-        opacity: 1,
-        height: "auto",
-       scale: 1,
-        transition: {
-            type: "spring",
-            duration: .25
-        }
-
-    }
-}
-
 export const Song = ({ song }: Props) => {
-    const { id } = song;
-    const { controls, state } = useMusic();
-    // const { duration } = useAudioDuration(`./songs/audio/${id}.mp3`)
+    const { id, title, thumbnail, artist, date } = song;
+    const { controls: songControls } = useSongs();
+    const { controls: musicControls } = useMusic();
 
-    const selectSong = () => {
-        controls.setSong(id);
+    const handleSelectSong = () => {
+        musicControls.setSong(id);
+    };
+
+    const handleDeleteSong = () => {
+        songControls.deleteSongs([id]);
     };
 
     return (
-        <Card onClick={selectSong} _hover={{
-            cursor: "pointer"
-        }}>
-            {/* <Image src={`./songs/thumbnails/${song.id}.png`} /> */}
-            <CardBody>
-                <Image 
-                    src={"https://i.ytimg.com/vi/aelpqWEBHR4/maxresdefault.jpg"} 
-                    rounded={"lg"}
-                    objectFit={"cover"}
-                    height={175}
-                    width={175}
-                />
-                <Text>
-                    {
-                        song.artist
-                    }
-                </Text>
-                <Text>
-                    {
-                        song.title
-                    }
-                </Text>
-                <Text>
-                    {
-                        song.date
-                    }
-                </Text>
-                <Text>
-                    {
-                        // duration ? duration : "-"
-                    }
-                </Text>
-            </CardBody>
-        </Card>
+        <Tr onClick={handleSelectSong}>
+            <Td>
+                <Stack direction={"row"}>
+                    <Image src={song.thumbnail} height={"3rem"} objectFit={"cover"}/>
+                    <Stack direction={"column"} justifyContent={"center"}>
+                        <Text fontWeight={"semibold"}>
+                            {
+                                song.title
+                            }
+                        </Text>
+                        <Text>
+                            {
+                                song.artist
+                            }
+                        </Text>
+                    </Stack>
+                </Stack>
+            </Td>
+            <Td>
+                {
+                    song.date
+                }
+            </Td>
+            <Td>
+                1:00
+            </Td>
+            <Td>
+                <Menu>
+                    <MenuButton>
+                        <IconDotsVertical />
+                    </MenuButton>
+                    <MenuList>
+                        <MenuItem onClick={handleDeleteSong}>
+                            Remove
+                        </MenuItem>
+                    </MenuList>
+                </Menu>
+            </Td>
+        </Tr> 
     )
 };

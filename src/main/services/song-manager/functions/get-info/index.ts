@@ -6,7 +6,7 @@ export const getInfo = async (url: string) => {
     return {
         title: info.videoDetails.title,
         artist: info.videoDetails.ownerChannelName,
-        date: info.videoDetails.publishDate, 
+        date: info.videoDetails.publishDate,
         thumbnail: info.videoDetails.thumbnails[0]
     };
 }
