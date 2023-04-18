@@ -9,7 +9,7 @@ import { Home, Download } from "@renderer/pages/index";
 
 export const Routes = () => {
     return (
-        <Flex height={"100vh"} width={"100vw"} direction={"column"}>
+        <Flex height={"100vh"} width={"100vw"} direction={"column"} overflow={"hidden"}>
             <Flex direction={"row"} flex={1}>
                 <BrowserRouter>
                     <SideBar />

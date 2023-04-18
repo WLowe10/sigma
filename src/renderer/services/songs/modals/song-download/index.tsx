@@ -34,12 +34,12 @@ export const SongDownloadModal = ({ open }: Props) => {
     });
 
     return (
-        <Modal isOpen={open} isCentered={true} onClose={() => {}}>
+        <Modal isOpen={open} isCentered={true} closeOnOverlayClick={true} onClose={() => {songsControls.closeDownloader()}}>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>
                     Add Song 
-                    <ModalCloseButton onClick={songsControls.closeDownloader}/>
+                    <ModalCloseButton />
                 </ModalHeader>
 
                 <ModalBody>

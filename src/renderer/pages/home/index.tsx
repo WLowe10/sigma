@@ -6,9 +6,8 @@ import { AnimatePresence } from "framer-motion";
 import { Flex, Heading, Input, TableCaption, TableContainer, Table, Thead, Tr, Th, Tbody, Td, Image, Stack, Box, InputGroup, InputLeftAddon, InputLeftElement } from "@chakra-ui/react";
 import { Song } from "@renderer/components/song";
 import { useSongsStore } from "@renderer/services/songs/store";
-import Fuzzy from "fuzzy-search";
-import FuzzySearch from "fuzzy-search";
 import { IconSearch } from "@tabler/icons-react";
+import FuzzySearch from "fuzzy-search";
 
 export const Home = () => {
     const [search, setSearch] = useState<string>("");
@@ -23,7 +22,7 @@ export const Home = () => {
     return (
         <Flex p={5} direction={"column"} flex={1}>
             <Stack direction={"row"} justifyContent={"space-between"} mb={"6"}>
-                <Heading size={"md"}>
+                <Heading size={"lg"}>
                     Recently Played
                 </Heading>
                 <Box>

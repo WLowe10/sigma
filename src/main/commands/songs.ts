@@ -36,7 +36,7 @@ export const createSongsCommands = ({ window, store }: Props) => {
         const stream = ytdl(url, { filter: "audioonly" });
 
         stream.on("data", (chunk) => {
-            window.webContents.send(IpcKeys.SONG_STREAM, {
+            event.reply(IpcKeys.SONG_STREAM, {
                 type: "chunk",
                 chunk: chunk
             })

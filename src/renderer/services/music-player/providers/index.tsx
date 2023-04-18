@@ -1,7 +1,5 @@
 import { useState, ReactNode, useRef, useEffect } from "react";
 import { MusicPlayerContext } from "../context";
-import { audioManager } from "../managers";
-import { useSongs } from "@renderer/services/songs/hooks";
 import { IpcKeys } from "@global/constants";
 import { Howl } from "howler";
 import { useSongsStore } from "@renderer/services/songs/store";
@@ -11,11 +9,12 @@ export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
     const [activeSong, setActiveSong] = useState<SongType | null>(null);
     const [playing, setPlaying] = useState(false);
     const [looping, setLooping] = useState(false);
-    const songs = useSongsStore(state => state.songs);
-    const audio = useRef<Howl | null>(null);
+    const getSongs = useSongsStore(state => state.getSongs);
+    const getAllSongs = useSongsStore(state => state.getAll);
+    // const audio = useRef<Howl | null>(null);
 
     const handleSetSong = (id: string) => {
-        const song = songs.find(song => song.id == id);
+        const song = getSongs([id])[0];
         if (!song) return;
 
         setActiveSong(song);
@@ -29,43 +28,87 @@ export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const handlePause = () => {
-        if (!audio.current) return;
-
         // await audio.current.fade(audio.current.volume(), 0, 500);
-        audio.current.pause();
         setPlaying(false);
     };
 
-    const handleSetLoop = () => {
-        if (!audio.current) return;
-
-        audio.current.loop();
-        setLooping(true);
+    const handleToggleLoop = () => {
+        // audio.current.loop();
+        setLooping(prev => !prev);
     };
 
+    const handleNext = () => {
+        if (!activeSong) return;
+
+        const allSongs = getAllSongs();
+        const currentSongId = activeSong.id;
+        const currentIdx = allSongs.findIndex(song => song.id == currentSongId);
+        const nextSong = allSongs[currentIdx + 1] || allSongs[0];
+
+        setActiveSong(nextSong);
+    };
+
+    const handleBack = () => {
+        if (!activeSong) return;
+
+        const allSongs = getAllSongs();
+        const currentSongId = activeSong.id;
+        const currentIdx = allSongs.findIndex(song => song.id == currentSongId);
+        const nextSong = allSongs[currentIdx - 1] || allSongs[allSongs.length - 1];
+
+        setActiveSong(nextSong);
+    };
+
+    const handleShuffle = () => {
+        console.log("shuffled")
+    };
+    
     useEffect(() => {
-        let chunks: any = [];
+        const mediaSource = new MediaSource();
+        const streamUrl = URL.createObjectURL(mediaSource);
+        const audio = new Audio(streamUrl);
 
-        window.electron.songsService.on(IpcKeys.SONG_STREAM, (data) => {
-            if (data.type == "chunk") {
-                chunks.push(data.chunk)
-            } else if (data.type == "end") {
-                const blob = new Blob(chunks, { type: "audio/mp3" })
-                const blobUrl = URL.createObjectURL(blob);
+        // const audio2 = new Howl({
+        //     src: [],
+        //     format: "mp3",
+        //     volume: .5,
+        //     onend: () => {
+        //         setPlaying(false);
+        //     },
+        // })
 
-                audio.current = (
-                    new Howl({
-                        src: blobUrl,
-                        format: "mp3",
-                        volume: .5,
-                        onend: () => {
-                            setPlaying(false);
-                        },
-                    })
-                )
+        // audio2.play()
 
-                audio.current.play();
-            }
+        mediaSource.addEventListener("sourceopen", () => {
+            const sourceBuffer = mediaSource.addSourceBuffer("audio/mpeg");
+
+            window.electron.songsService.on(IpcKeys.SONG_STREAM, (data) => {
+                if (data.type == "chunk") {
+                    console.log("chunk")
+                    sourceBuffer.appendBuffer(data.chunk);
+                }
+
+                else if (data.type == "end") { 
+                    console.log("done")
+                };
+            })
+
+            sourceBuffer.addEventListener("updateend", () => {
+                audio.play() 
+            });
+
+            // audio.play();
+
+            audio.addEventListener("canplay", () => {
+                // mediaSource.endOfStream();
+                console.log("Audio can play");
+                audio.play();
+            });
+
+        });
+
+        audio.addEventListener("error", (err) => {
+            console.log(err)
         })
     }, [])
 
@@ -75,7 +118,10 @@ export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
                 setSong: handleSetSong,
                 play: handlePlay,
                 pause: handlePause,
-                loop: handleSetLoop
+                loop: handleToggleLoop,
+                next: handleNext, 
+                back: handleBack,
+                shuffle: handleShuffle
             },
             state: {
                 activeSong: activeSong,

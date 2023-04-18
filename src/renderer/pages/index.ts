@@ -3,5 +3,7 @@ import { Download } from "./download";
 import { Playlist } from "./playlist";
 
 export {
-    Home, Download
+    Home, 
+    Download,
+    Playlist
 }
