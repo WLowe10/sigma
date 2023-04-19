@@ -22,7 +22,7 @@ export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
 
     const handlePlay = () => {
         if (!activeSong) return;
-        window.electron.songsService.playSong(activeSong.url);
+        // window.electron.songsService.playSong(activeSong.url);
         // audio.current.play();
         setPlaying(true)
     };

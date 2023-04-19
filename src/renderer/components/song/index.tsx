@@ -1,23 +1,32 @@
 import { useMusic } from "@renderer/services/music-player/hooks";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useAudioDuration } from "@renderer/hooks";
-import { Button, Card, Text, Image, CardHeader, CardBody, Stack, Tr, Td, Menu, MenuButton, MenuList, MenuItem, Center, chakra, useTheme, IconButton } from "@chakra-ui/react";
+import { Button, Card, Text, Image, CardHeader, CardBody, Stack, Tr, Td, Menu, MenuButton, MenuList, MenuItem, Center, chakra, useTheme, IconButton, Box } from "@chakra-ui/react";
 import { IconDotsVertical, IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useSongs } from "@renderer/services/songs/hooks";
 import { motion } from "framer-motion"  
 import { useToken } from "@chakra-ui/react";
+import { usePlaylists } from "@renderer/services/playlists/hooks";
+import { usePlaylistsStore } from "@renderer/services/playlists/store";
+import audioLoader from "@renderer/assets/icons/audio.svg";
 import type { SongType } from "@global/types";
+import { AudioIcon } from "../icons";
 
 type Props = {
     song: SongType,
+    playing: boolean,
+    playlist?: string,
     index: number
 };
 
-export const Song = ({ song, index }: Props) => {
+export const Song = memo(({ song, playing, playlist, index }: Props) => {
+    console.log("song rendered: ", song.id)
     const { id, title, thumbnail, artist, date } = song;
     const { controls: songControls } = useSongs();
     const { controls: musicControls } = useMusic();
-    const [blackAlpha600] = useToken("colors", ["blackAlpha.600"])
+    const { controls: playlistControls } = usePlaylists();
+    const playlists = usePlaylistsStore(state => state.playlists);
+    const [blackAlpha600, green] = useToken("colors", ["blackAlpha.600", "green.400"])
     const [hovered, setHovered] = useState(false);
 
     const handleSelectSong = () => {
@@ -26,6 +35,10 @@ export const Song = ({ song, index }: Props) => {
 
     const handleDeleteSong = () => {
         songControls.deleteSongs([id]);
+    };
+
+    const handleAddToPlaylist = (playlistId: string) => {
+        playlistControls.addSongs(playlistId, [song.id])
     };
 
     return (
@@ -41,7 +54,13 @@ export const Song = ({ song, index }: Props) => {
                 <Center>
                     {
                         !hovered ? (
-                            index + 1
+                            playing ? (
+                                <Box>
+                                    <AudioIcon fill={green} height={16} width={16}/>
+                                </Box>
+                            ) : (
+                                index + 1
+                            )
                         ) : (
                             <IconButton aria-label={"play"} size={"xs"}>
                                 <IconPlayerPlayFilled size={16} />
@@ -81,9 +100,13 @@ export const Song = ({ song, index }: Props) => {
                         <IconDotsVertical size={16}/>
                     </MenuButton>
                     <MenuList>
-                        <MenuItem>
-                            Add to playlist
-                        </MenuItem>
+                        {
+                            playlists.map(pl => (
+                                <MenuItem onClick={() => handleAddToPlaylist(pl.id)} key={pl.id}>
+                                    Add to { pl.name }
+                                </MenuItem>
+                            ))
+                        }
                         <MenuItem onClick={handleDeleteSong}>
                             Remove
                         </MenuItem>
@@ -92,4 +115,4 @@ export const Song = ({ song, index }: Props) => {
             </Td>
         </Tr> 
     )
-};
+});

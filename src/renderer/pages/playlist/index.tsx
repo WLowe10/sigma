@@ -15,7 +15,7 @@ export const Playlist = () => {
     if (!playlist) return null;
 
     const getSongs = useSongsStore(state => state.getSongs);
-    const songs = useMemo(() => getSongs(playlist.songs), [playlist.songs]);
+    const songs = useSongsStore(state => state.songs.filter(song => playlist.songs.includes(song.id)));
     const { results, search, term } = useFuzzy(songs, ["title", "artist"]);
 
     const handleSearch = (e: any) => {
