@@ -1,4 +1,5 @@
 export enum RouteTypes {
     Home = "/",
-    Download = "/download"
+    Download = "/download",
+    Playlist = "/playlist/:id"
 }

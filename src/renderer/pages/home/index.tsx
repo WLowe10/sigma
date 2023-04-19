@@ -8,15 +8,13 @@ import { Song } from "@renderer/components/song";
 import { useSongsStore } from "@renderer/services/songs/store";
 import { IconSearch } from "@tabler/icons-react";
 import { SongTable } from "@renderer/components";
-import { useFuzzy } from "@renderer/hooks";
+import { useFuzzy } from "react-hook-fuzzy";
 
 export const Home = () => {
-    const [searchQuery, setSearch] = useState<string>("");
     const songs = useSongsStore(state => state.songs);
-    const { results, search } = useFuzzy(songs, ["title", "artist"]);
+    const { results, term, search } = useFuzzy(songs, ["title", "artist"]);
 
     const handleSearch = (e: any) => {
-        setSearch(e.target.value);
         search(e.target.value);
     };
 
@@ -34,7 +32,7 @@ export const Home = () => {
                         <Input 
                             placeholder={"search"} 
                             onChange={handleSearch} 
-                            value={searchQuery}
+                            value={term}
                         />
                     </InputGroup>
                 </Box>

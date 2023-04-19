@@ -17,7 +17,7 @@ export const Song = ({ song, index }: Props) => {
     const { id, title, thumbnail, artist, date } = song;
     const { controls: songControls } = useSongs();
     const { controls: musicControls } = useMusic();
-    const [gray100] = useToken("colors", ["blackAlpha.600"])
+    const [blackAlpha600] = useToken("colors", ["blackAlpha.600"])
     const [hovered, setHovered] = useState(false);
 
     const handleSelectSong = () => {
@@ -32,7 +32,7 @@ export const Song = ({ song, index }: Props) => {
         <Tr 
             onClick={handleSelectSong} 
             as={motion.tr} 
-            whileHover={{ backgroundColor: gray100 }} 
+            whileHover={{ backgroundColor: blackAlpha600 }} 
             onHoverStart={() => setHovered(true)} 
             onHoverEnd={() => setHovered(false)}
             _hover={{ cursor: "default" }}
@@ -81,6 +81,9 @@ export const Song = ({ song, index }: Props) => {
                         <IconDotsVertical size={16}/>
                     </MenuButton>
                     <MenuList>
+                        <MenuItem>
+                            Add to playlist
+                        </MenuItem>
                         <MenuItem onClick={handleDeleteSong}>
                             Remove
                         </MenuItem>

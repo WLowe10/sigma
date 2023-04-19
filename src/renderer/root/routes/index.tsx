@@ -5,7 +5,7 @@ import { RouteTypes } from "@renderer/constants/routes";
 import { MusicPlayer } from "@renderer/services/music-player/components";
 
 //* Pages */
-import { Home, Download } from "@renderer/pages/index";
+import { Home, Download, Playlist } from "@renderer/pages/index";
 
 export const Routes = () => {
     return (
@@ -16,6 +16,7 @@ export const Routes = () => {
                     <NavRoutes>
                         <Route path={RouteTypes.Home} element={<Home />} />
                         <Route path={RouteTypes.Download} element={<Download />} />
+                        <Route path={RouteTypes.Playlist} element={<Playlist />} />
                     </NavRoutes>
                 </BrowserRouter>
             </Flex>
