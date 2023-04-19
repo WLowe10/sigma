@@ -1,25 +1,25 @@
 import { create } from "zustand";
 import { produce } from "immer";
+import { shuffle } from "@renderer/utils";
+import { v4 as uuidv4 } from "uuid";
 import type { PlaylistType } from "@global/types";
 
 export type PlaylistsStoreType = {
     playlists: Array<PlaylistType>,
-    createPlayList: () => void,
+    createPlayList: (name: string) => void,
     addSongs: (playlistId: string, songIds: Array<string>) => void,
 };
 
 export const usePlaylistsStore = create<PlaylistsStoreType>(set => ({
-    playlists: [
-        {
-            id: "main",
-            name: "Playlist 1",
+    playlists: [],
+
+    createPlayList: (name: string) => set(produce<PlaylistsStoreType>(draft => {
+        const newPlaylist = {
+            id: uuidv4(),
+            name: name, 
             songs: [],
-            shuffle: () => {},
         }
-    ],
-
-    createPlayList: () => set(produce(draft => {
-
+        draft.playlists.push()
     })),
 
     addSongs: (playlistId: string, songIds: Array<string>) => set(produce<PlaylistsStoreType>(draft => {
@@ -27,5 +27,9 @@ export const usePlaylistsStore = create<PlaylistsStoreType>(set => ({
         if (!playlist) return;
 
         playlist.songs = [...playlist.songs, ...songIds];
+    })),
+
+    loadPlaylists: (playlists: Array<PlaylistType>) => set(() => ({
+        playlists: playlists
     }))
 }))

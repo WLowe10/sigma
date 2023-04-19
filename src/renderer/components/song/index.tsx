@@ -1,16 +1,16 @@
 import { useMusic } from "@renderer/services/music-player/hooks";
 import { memo, useEffect, useState } from "react";
 import { useAudioDuration } from "@renderer/hooks";
-import { Button, Card, Text, Image, CardHeader, CardBody, Stack, Tr, Td, Menu, MenuButton, MenuList, MenuItem, Center, chakra, useTheme, IconButton, Box } from "@chakra-ui/react";
+import { Text, Image, CardHeader, Stack, Tr, Td, Menu, MenuButton, MenuList, MenuItem, Center, chakra, useTheme, IconButton, Box } from "@chakra-ui/react";
 import { IconDotsVertical, IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useSongs } from "@renderer/services/songs/hooks";
 import { motion } from "framer-motion"  
 import { useToken } from "@chakra-ui/react";
 import { usePlaylists } from "@renderer/services/playlists/hooks";
 import { usePlaylistsStore } from "@renderer/services/playlists/store";
-import audioLoader from "@renderer/assets/icons/audio.svg";
-import type { SongType } from "@global/types";
 import { AudioIcon } from "../icons";
+import { IconPlayerPauseFilled } from "@tabler/icons-react";
+import type { SongType } from "@global/types";
 
 type Props = {
     song: SongType,
@@ -20,14 +20,25 @@ type Props = {
 };
 
 export const Song = memo(({ song, playing, playlist, index }: Props) => {
-    console.log("song rendered: ", song.id)
+    // console.log("song rendered: ", song.id)
     const { id, title, thumbnail, artist, date } = song;
     const { controls: songControls } = useSongs();
     const { controls: musicControls } = useMusic();
     const { controls: playlistControls } = usePlaylists();
-    const playlists = usePlaylistsStore(state => state.playlists);
-    const [blackAlpha600, green] = useToken("colors", ["blackAlpha.600", "green.400"])
+    const [blackAlpha600, green300] = useToken("colors", ["blackAlpha.600", "green.300"])
     const [hovered, setHovered] = useState(false);
+    const playlists = usePlaylistsStore(state => state.playlists);
+
+    const handlePlaySong = (e: any) => {
+        e.stopPropagation();
+        musicControls.setSong(id, true);
+    };
+
+    const handlePauseSong = (e: any) => {
+        e.stopPropagation();
+        musicControls.pause();
+        // musicControls.setSong(id, true);
+    };
 
     const handleSelectSong = () => {
         musicControls.setSong(id);
@@ -56,22 +67,28 @@ export const Song = memo(({ song, playing, playlist, index }: Props) => {
                         !hovered ? (
                             playing ? (
                                 <Box>
-                                    <AudioIcon fill={green} height={16} width={16}/>
+                                    <AudioIcon fill={green300} height={16} width={16}/>
                                 </Box>
                             ) : (
                                 index + 1
                             )
                         ) : (
-                            <IconButton aria-label={"play"} size={"xs"}>
-                                <IconPlayerPlayFilled size={16} />
-                            </IconButton>
+                            playing ? (
+                                <IconButton aria-label={"pause"} size={"xs"} onClick={handlePauseSong}>
+                                    <IconPlayerPauseFilled size={16} />
+                                </IconButton>
+                            ) : (
+                                <IconButton aria-label={"play"} size={"xs"} onClick={handlePlaySong}>
+                                    <IconPlayerPlayFilled size={16} />
+                                </IconButton>
+                            )
                         )
                     }
                 </Center>
             </Td>
             <Td>
                 <Stack direction={"row"} alignItems={"center"}>
-                    <Image src={song.thumbnail} height={"3rem"} objectFit={"cover"}/>
+                    <Image src={song.thumbnail} height={"3rem"} objectFit={"cover"} />
                     <Stack direction={"column"} justifyContent={"center"}>
                         <Text fontWeight={"semibold"}>
                             {
@@ -102,7 +119,10 @@ export const Song = memo(({ song, playing, playlist, index }: Props) => {
                     <MenuList>
                         {
                             playlists.map(pl => (
-                                <MenuItem onClick={() => handleAddToPlaylist(pl.id)} key={pl.id}>
+                                <MenuItem onClick={(e: any) => {
+                                    e.stopPropagation();
+                                    handleAddToPlaylist(pl.id)
+                                }} key={pl.id}>
                                     Add to { pl.name }
                                 </MenuItem>
                             ))

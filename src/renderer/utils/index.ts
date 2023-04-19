@@ -1,3 +1,5 @@
+import { shuffle } from "./shuffle";
+
 export const getAudioDuration = async (src: string): Promise<number> => {
     return new Promise((resolve) => {
         try {
@@ -14,11 +16,15 @@ export const getAudioDuration = async (src: string): Promise<number> => {
 };
 
 export const convertSeconds = (seconds: number) => {
-        let floored = Math.floor(seconds);
+    let floored = Math.floor(seconds);
 
-        let hours = Math.floor(floored / 3600);
-        let mins = Math.floor(floored % 3600 / 60);
-        let secs = Math.floor(floored % 3600 % 60);       
-        
-        return (`${hours ? hours + ":" : ""}${mins ? mins + ":" : "0:"}${secs.toString().padStart(2, "0")}`);
+    let hours = Math.floor(floored / 3600);
+    let mins = Math.floor(floored % 3600 / 60);
+    let secs = Math.floor(floored % 3600 % 60);       
+    
+    return (`${hours ? hours + ":" : ""}${mins ? mins + ":" : "0:"}${secs.toString().padStart(2, "0")}`);
+}
+
+export {
+    shuffle
 }

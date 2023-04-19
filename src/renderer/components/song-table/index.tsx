@@ -33,7 +33,7 @@ export const SongTable = ({ songs }: { songs: Array<SongType> }) => {
                 <Tbody>
                     {
                         songs.map((song, idx) => (
-                            <Song song={{...song}} playing={musicState.playing && musicState.activeSong?.id == song.id || false} index={idx} key={song.id} />
+                            <Song song={{...song}} playing={musicState.playing && musicState.activeSong == song.id || false} index={idx} key={song.id} />
                         ))
                     }
                 </Tbody>

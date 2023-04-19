@@ -3,7 +3,7 @@ import type { SongType } from "@global/types";
 
 export type MusicPlayerContextType = {
      controls: {
-          setSong: (id: string) => void,
+          setSong: (id: string, play?: boolean) => void,
           play: () => void,
           pause: () => void,
           loop: () => void,
@@ -18,7 +18,7 @@ export type MusicPlayerContextType = {
      state: {
           playing: boolean,
           looping: boolean
-          activeSong: SongType | null
+          activeSong: string | null
      }
 };
 

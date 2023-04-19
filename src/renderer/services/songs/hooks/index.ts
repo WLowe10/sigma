@@ -1,7 +1,7 @@
-import { useContext } from "react";
-import { SongsContext, SongsContextType } from "../context";
+import { useSongs } from "./songs";
+import { useSong } from "./song";
 
-export const useSongs = () => {
-    const songProvider = useContext(SongsContext) as SongsContextType;
-    return songProvider;
-};
+export {
+    useSongs,
+    useSong
+}

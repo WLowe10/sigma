@@ -14,13 +14,14 @@ import {
     FormErrorMessage
 } from "@chakra-ui/react"
 import { useForm } from "react-hook-form";
-import { useSongs } from "../../hooks";
+import { useSongs } from "@renderer/services/songs/hooks";
 
 type Props = {
-    open: boolean
+    open: boolean,
+    onClose: () => any
 };
 
-export const SongDownloadModal = ({ open }: Props) => {
+export const PlaylistAddModal = ({ open, onClose }: Props) => {
     const {
         register, 
         handleSubmit,
@@ -34,24 +35,27 @@ export const SongDownloadModal = ({ open }: Props) => {
     });
 
     return (
-        <Modal isOpen={open} isCentered={true} closeOnOverlayClick={true} onClose={() => {songsControls.closeDownloader()}}>
+        <Modal isOpen={open} isCentered={true} closeOnOverlayClick={true} onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
                 <ModalHeader>
-                    Add Song 
+                    Create Playlist
                     <ModalCloseButton />
                 </ModalHeader>
 
                 <ModalBody>
                     <FormControl>
                         <FormLabel>
-                            Youtube URL
+                            What would you like it to be called?
                         </FormLabel>
-                        <Input {...register("url", {
-                            required: "URL is required"
-                        })}/>
+                        <Input 
+                            placeholder={"name"}
+                            {...register("name", {
+                                required: "a name is required"
+                            })}
+                        />
                         <FormErrorMessage>
-                            oops
+
                         </FormErrorMessage>
                     </FormControl>
 
@@ -59,7 +63,7 @@ export const SongDownloadModal = ({ open }: Props) => {
                 <ModalFooter>
                     <Center width={"100%"}>
                         <Button onClick={handleDownload} isLoading={songsState.downloading}>
-                            Download
+                            Create
                         </Button>
                     </Center>
                 </ModalFooter>

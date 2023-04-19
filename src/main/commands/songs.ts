@@ -38,7 +38,7 @@ export const createSongsCommands = ({ window, store }: Props) => {
         stream.on("data", (chunk) => {
             event.reply(IpcKeys.SONG_STREAM, {
                 type: "chunk",
-                chunk: chunk
+                buffer: new Uint8Array(chunk).buffer
             })
         });
 
