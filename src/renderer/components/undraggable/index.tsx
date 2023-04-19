@@ -1,11 +1,4 @@
-import { CSSProperties, ReactNode } from "react"
-// import { createUseStyles } from "react-jss"
-
-// const useStyles = createUseStyles({
-//     undraggable: {
-//         "-webkit-app-region": "no-drag"
-//     }
-// })
+import type { CSSProperties, ReactNode } from "react"
 
 export const Undraggable = ({ children, className, style }: { children: ReactNode, className?: string, style?: CSSProperties }) => {
     return (

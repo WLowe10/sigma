@@ -1,6 +1,4 @@
 import { useMusic } from "@renderer/services/music-player/hooks";
-import { SongControls } from "../song-controls";
-import { AudioControls } from "../audio-controls";
 import { motion, AnimatePresence} from "framer-motion";
 import { Flex, Stack, Image, Text, Center, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, SlideFade, Button, IconButton, Slide } from "@chakra-ui/react";
 import { IconPlayerPlayFilled, IconPlayerPauseFilled, IconPlayerSkipBackFilled, IconPlayerSkipForwardFilled, IconRepeat, IconArrowsShuffle } from "@tabler/icons-react";
