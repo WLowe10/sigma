@@ -24,6 +24,7 @@ export const Home = () => {
                 <Heading size={"lg"}>
                     Recently Played
                 </Heading>
+
                 <Box>
                     <InputGroup>
                         <InputLeftElement>

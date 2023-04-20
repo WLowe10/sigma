@@ -6,6 +6,7 @@ import { useSongsStore } from "@renderer/services/songs/store";
 import { shuffle } from "@renderer/utils";
 import type { SongType } from "@global/types";
 
+
 export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
     const [activeSong, setActiveSong] = useState<string | null>(null);
     const [activePlaylist, setActivePlaylist] = useState<string | null>(null);
@@ -22,7 +23,9 @@ export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
         setPlaying(false);
         setActiveSong(songId);
 
-        if (play) setPlaying(true);
+        if (play) {
+            setPlaying(true)
+        };
     };
 
     const handlePlay = () => {
@@ -30,7 +33,6 @@ export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
         const songData = getSongs([activeSong])[0];
 
         // window.electron.songsService.playSong(songData.url);
-
         setPlaying(true)
     };
 
@@ -69,32 +71,43 @@ export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
     };
     
     useEffect(() => {
-        const mediaSource = new MediaSource();
-        const streamUrl = URL.createObjectURL(mediaSource);
-        const audio = new Audio(streamUrl);
+        // const audioContext = new AudioContext();
+        // const source = audioContext.createBufferSource();
+        // const mediaSource = new MediaSource();
+        // const audio = new Audio();
+        // audio.src = URL.createObjectURL(mediaSource);
 
-        const audioContext = new AudioContext();
-        const source = audioContext.createBufferSource();
+        // mediaSource.addEventListener("sourceopen", () => {
+        //     const sourceBuffer = mediaSource.addSourceBuffer("audio/mpeg");
 
-        window.electron.songsService.on(IpcKeys.SONG_STREAM, (data) => {
-            console.log(data.buffer)
-            // source.buffer = new AudioBuffer(data.buffer);
-            // source.connect(audioContext.destination)
-            // source.start();
+        //     window.electron.songsService.on(IpcKeys.SONG_STREAM, (data) => {
+        //         if (data.buffer) {
+        //             // audioContext.decodeAudioData(data.buffer, (audioBuffer) => {
+        //             // source.buffer = data.buffer;
 
-            // audioContext.decodeAudioData(data.buffer, (audioBuffer) => {
-            //     source.buffer = audioBuffer;
+        //             // source.connect(audioContext.destination);
+        //             // source.start();
+        //             sourceBuffer.appendBuffer(data.buffer)
+        //             audio.play()
+        //         } else {
+        //             console.log("playing")
+        //             mediaSource.endOfStream();
+        //         }
+        //     });
+        // });
 
-            //     source.connect(audioContext.destination);
-            //     source.start();
 
-            //     setTimeout(() => {
-            //         source.stop();
-            //     }, 1000)
-            // });
+        // window.electron.songsService.on(IpcKeys.SONG_STREAM, (data) => {
+        //     const source = audioContext.createBufferSource();
+        //     if (data.buffer) {
+        //         audioContext.decodeAudioData(data.buffer, (audioBuffer) => {
+        //             source.buffer = data.buffer;
 
-            console.log(data.buffer)
-        });
+        //             source.connect(audioContext.destination);
+        //             source.start();
+        //         });
+        //     }
+        // });
 
         // const audio2 = new Howl({
         //     src: [],
@@ -146,6 +159,7 @@ export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
                 looping: looping
             }
         }}>
+            {/* <webview id="yt-view" src={"https://www.youtube.com/watch?v=C_MuKHTGM-c"} style={{ display: "none" }}/> */}
             {
                 children
             }

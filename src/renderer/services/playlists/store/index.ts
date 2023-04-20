@@ -8,6 +8,7 @@ export type PlaylistsStoreType = {
     playlists: Array<PlaylistType>,
     createPlayList: (name: string) => void,
     addSongs: (playlistId: string, songIds: Array<string>) => void,
+    loadPlaylists: (playlists: Array<PlaylistType>) => void,
 };
 
 export const usePlaylistsStore = create<PlaylistsStoreType>(set => ({
@@ -18,8 +19,24 @@ export const usePlaylistsStore = create<PlaylistsStoreType>(set => ({
             id: uuidv4(),
             name: name, 
             songs: [],
+            remainingSongs: [],
+
+            // shuffle: function() {
+            //     const remaining = this.remainingSongs.length ? this.remainingSongs : this.songs;
+            //     const randomSongIdx = Math.floor(Math.random() * remaining.length);
+            //     const randomSong = remaining[randomSongIdx];
+
+            //     if (!this.remainingSongs.length) {
+            //         this.remainingSongs = this.songs;
+            //     }
+
+            //     this.remainingSongs.splice(randomSongIdx, 1);
+
+            //     return randomSong;
+            // }
         }
-        draft.playlists.push()
+
+        draft.playlists.push(newPlaylist);
     })),
 
     addSongs: (playlistId: string, songIds: Array<string>) => set(produce<PlaylistsStoreType>(draft => {

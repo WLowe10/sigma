@@ -52,7 +52,7 @@ export const SideBar = () => {
                     <Box key={pl.id}>
                         <Link to={`/playlist/${pl.id}`}>
                             <Stack direction={"row"} alignItems={"center"}>
-                                <Avatar name={"main"} size={"xs"} bg={"gray.600"} />
+                                <Avatar name={pl.name} size={"xs"} bg={"gray.600"} />
                                 <Text color={"white"} fontWeight={"bold"}>
                                     {
                                         pl.name

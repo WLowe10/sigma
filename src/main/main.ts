@@ -15,8 +15,7 @@ import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import Store from "electron-store";
-import { createSettingsCommands } from './commands/settings';
-import { createSongsCommands } from './commands/songs';
+import { createSongsCommands, createSettingsCommands, createMusicCommands } from "./commands";
 
 const store = new Store();
 
@@ -80,6 +79,7 @@ const createWindow = async () => {
     height: 728,
     icon: getAssetPath('icon.png'),
     webPreferences: {
+      webviewTag: true,
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
@@ -89,6 +89,11 @@ const createWindow = async () => {
   createSettingsCommands(store);
 
   createSongsCommands({
+    window: mainWindow,
+    store: store
+  });
+
+  createMusicCommands({
     window: mainWindow,
     store: store
   });

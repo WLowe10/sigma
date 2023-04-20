@@ -32,20 +32,21 @@ export const createSongsCommands = ({ window, store }: Props) => {
         store.set("songs", filteredSongs);
     });
 
-    ipcMain.on(IpcKeys.PLAY_SONG, (event: any, url) => {
-        const stream = ytdl(url, { filter: "audioonly" });
+    // ipcMain.on(IpcKeys.PLAY_SONG, (event: any, url) => {
+        // const stream = ytdl(url, { filter: "audioonly"});
 
-        stream.on("data", (chunk) => {
-            event.reply(IpcKeys.SONG_STREAM, {
-                type: "chunk",
-                buffer: new Uint8Array(chunk).buffer
-            })
-        });
+        // stream.on("data", (chunk) => {
+        //     console.log(chunk)
+            // event.reply(IpcKeys.SONG_STREAM, {
+            //     type: "chunk",
+            //     buffer: new Uint16Array(chunk).buffer
+            // })
+        // });
 
-        stream.on("end", () => {
-            window.webContents.send(IpcKeys.SONG_STREAM, {
-                type: "end"
-            })
-        });
-    });
+        // stream.on("end", () => {
+        //     window.webContents.send(IpcKeys.SONG_STREAM, {
+        //         type: "end"
+        //     })
+        // });
+    // });
 };

@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react"
 import { useForm } from "react-hook-form";
 import { useSongs } from "@renderer/services/songs/hooks";
+import { usePlaylists } from "@renderer/services/playlists/hooks";
 
 type Props = {
     open: boolean,
@@ -28,10 +29,10 @@ export const PlaylistAddModal = ({ open, onClose }: Props) => {
         formState: { errors },
     } = useForm();
 
-    const { state: songsState, controls: songsControls } = useSongs();
+    const { controls: playlistControls } = usePlaylists();
 
-    const handleDownload = handleSubmit((data) => {
-        songsControls.addSong(data.url);
+    const handleCreate = handleSubmit((data) => {
+        playlistControls.create(data.name);
     });
 
     return (
@@ -58,11 +59,10 @@ export const PlaylistAddModal = ({ open, onClose }: Props) => {
 
                         </FormErrorMessage>
                     </FormControl>
-
                 </ModalBody>
                 <ModalFooter>
                     <Center width={"100%"}>
-                        <Button onClick={handleDownload} isLoading={songsState.downloading}>
+                        <Button onClick={handleCreate}>
                             Create
                         </Button>
                     </Center>
