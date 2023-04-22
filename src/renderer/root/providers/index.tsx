@@ -11,7 +11,7 @@ export const Providers = ({ children }: { children: ReactNode }) => {
             <PlaylistsProvider>
                 <SongsProvider>
                     <MusicPlayerProvider>
-                        {  children }
+                        { children }
                     </MusicPlayerProvider>     
                 </SongsProvider>
             </PlaylistsProvider>

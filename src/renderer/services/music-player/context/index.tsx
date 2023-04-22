@@ -6,6 +6,7 @@ export type MusicPlayerContextType = {
           setSong: (id: string, play?: boolean) => void,
           play: () => void,
           pause: () => void,
+          setVolume: (volume: number) => void,
           loop: () => void,
           back: () => void,
           next: () => void,
@@ -18,6 +19,7 @@ export type MusicPlayerContextType = {
      state: {
           playing: boolean,
           looping: boolean
+          volume: number,
           activeSong: string | null
      }
 };

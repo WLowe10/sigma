@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useSynchronize } from "@renderer/hooks";
 import { PlaylistsContext } from "../context";
 import { usePlaylistsStore } from "../store";
-import type { ReactNode } from "react";
 import { PlaylistType } from "@global/types";
+import type { ReactNode } from "react";
 
 export const PlaylistsProvider = ({ children }: { children: ReactNode }) => {
     const addSongs = usePlaylistsStore(state => state.addSongs);
@@ -27,16 +27,17 @@ export const PlaylistsProvider = ({ children }: { children: ReactNode }) => {
 
     };
 
-    useSynchronize<Array<PlaylistType>>("playlists", 
-        (save) => {
-            usePlaylistsStore.subscribe((state) => {
-                save(state.playlists);
-            })
-        },
-        (initial) => {
-            loadPlaylists(initial);
-        }
-    );
+    const save = useSynchronize<Array<PlaylistType>>("playlists", (initialPlaylists) => {
+        if (initialPlaylists) loadPlaylists(initialPlaylists);
+    });
+
+    useEffect(() => {
+        const clear = usePlaylistsStore.subscribe((state) => {
+            save(state.playlists);
+        });
+
+        return clear;
+    }, [])
 
     return (
         <PlaylistsContext.Provider value={{

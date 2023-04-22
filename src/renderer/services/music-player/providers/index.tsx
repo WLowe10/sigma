@@ -1,49 +1,43 @@
-import { useState, ReactNode, useRef, useEffect } from "react";
+import { useState, ReactNode, useRef, useEffect, useMemo } from "react";
 import { MusicPlayerContext } from "../context";
-import { IpcKeys } from "@global/constants";
-import { Howl } from "howler";
 import { useSongsStore } from "@renderer/services/songs/store";
 import { shuffle } from "@renderer/utils";
-import type { SongType } from "@global/types";
-
+import { useYoutubePlayer } from "../hooks";
 
 export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
     const [activeSong, setActiveSong] = useState<string | null>(null);
     const [activePlaylist, setActivePlaylist] = useState<string | null>(null);
-    const [playing, setPlaying] = useState(false);
-    const [looping, setLooping] = useState(false);
     const getSongs = useSongsStore(state => state.getSongs);
     const getAllSongs = useSongsStore(state => state.getAll);
-    // const audio = useRef<Howl | null>(null);
+    const { state: playerState, controls: playerControls } = useYoutubePlayer();
+    // const ytRef = useRef<any | null>(null);
 
     const handleSetSong = (songId: string, play?: boolean) => {
         const song = getSongs([songId])[0];
         if (!song) return;
 
-        setPlaying(false);
+        playerControls.load(song.url);
         setActiveSong(songId);
-
-        if (play) {
-            setPlaying(true)
-        };
     };
 
     const handlePlay = () => {
         if (!activeSong) return;
-        const songData = getSongs([activeSong])[0];
 
-        // window.electron.songsService.playSong(songData.url);
-        setPlaying(true)
+        // const songData = getSongs([activeSong])[0];
+        playerControls.play();
     };
 
     const handlePause = () => {
         // await audio.current.fade(audio.current.volume(), 0, 500);
-        setPlaying(false);
+        playerControls.pause();
     };
 
     const handleToggleLoop = () => {
-        // audio.current.loop();
-        setLooping(prev => !prev);
+        playerControls.toggleLoop();
+    };
+
+    const handleSetVolume = (volume: number) => {
+        playerControls.setVolume(volume);
     };
 
     const handleNext = () => {
@@ -69,78 +63,6 @@ export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
     const handleShuffle = () => {
         // const shuffled = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     };
-    
-    useEffect(() => {
-        // const audioContext = new AudioContext();
-        // const source = audioContext.createBufferSource();
-        // const mediaSource = new MediaSource();
-        // const audio = new Audio();
-        // audio.src = URL.createObjectURL(mediaSource);
-
-        // mediaSource.addEventListener("sourceopen", () => {
-        //     const sourceBuffer = mediaSource.addSourceBuffer("audio/mpeg");
-
-        //     window.electron.songsService.on(IpcKeys.SONG_STREAM, (data) => {
-        //         if (data.buffer) {
-        //             // audioContext.decodeAudioData(data.buffer, (audioBuffer) => {
-        //             // source.buffer = data.buffer;
-
-        //             // source.connect(audioContext.destination);
-        //             // source.start();
-        //             sourceBuffer.appendBuffer(data.buffer)
-        //             audio.play()
-        //         } else {
-        //             console.log("playing")
-        //             mediaSource.endOfStream();
-        //         }
-        //     });
-        // });
-
-
-        // window.electron.songsService.on(IpcKeys.SONG_STREAM, (data) => {
-        //     const source = audioContext.createBufferSource();
-        //     if (data.buffer) {
-        //         audioContext.decodeAudioData(data.buffer, (audioBuffer) => {
-        //             source.buffer = data.buffer;
-
-        //             source.connect(audioContext.destination);
-        //             source.start();
-        //         });
-        //     }
-        // });
-
-        // const audio2 = new Howl({
-        //     src: [],
-        //     format: "mp3",
-        //     volume: .5,
-        //     onend: () => {
-        //         setPlaying(false);
-        //     },
-        // })
-
-        // audio2.play()
-
-        // mediaSource.addEventListener("sourceopen", () => {
-        //     const sourceBuffer = mediaSource.addSourceBuffer("audio/mpeg");
-
-        //     window.electron.songsService.on(IpcKeys.SONG_STREAM, (data) => {
-        //         if (data.type == "chunk") {
-        //             sourceBuffer.appendBuffer(data.buffer);
-        //         }
-
-        //         else if (data.type == "end") { 
-        //             console.log("done")
-        //             audio.play()
-        //         };
-        //     })
-
-        //     // sourceBuffer.addEventListener("updateend", () => {
-        //     //     audio.play() 
-        //     // });
-
-        //     // audio.play();
-        // });
-    }, [])
 
     return (
         <MusicPlayerContext.Provider value={{ 
@@ -149,20 +71,20 @@ export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
                 play: handlePlay,
                 pause: handlePause,
                 loop: handleToggleLoop,
+                setVolume: handleSetVolume,
                 next: handleNext, 
                 back: handleBack,
                 shuffle: handleShuffle
             },
             state: {
                 activeSong: activeSong,
-                playing: playing,
-                looping: looping
+                playing: playerState.playing,
+                looping: playerState.looping,
+                volume: playerState.volume
             }
         }}>
-            {/* <webview id="yt-view" src={"https://www.youtube.com/watch?v=C_MuKHTGM-c"} style={{ display: "none" }}/> */}
-            {
-                children
-            }
+            { children }
+            {/* <webview id="yt-view" ref={ytRef} style={{ display: "none"}} /> */}
         </MusicPlayerContext.Provider>
     )
 }

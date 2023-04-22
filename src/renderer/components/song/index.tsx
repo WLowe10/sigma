@@ -114,7 +114,9 @@ export const Song = memo(({ song, playing, playlist, index }: Props) => {
             <Td>
                 <Menu>
                     <MenuButton onClick={(e: any) => e.stopPropagation()}>
-                        <IconDotsVertical size={16}/>
+                        <IconButton as={"div"} aria-label={"more options"} size={"xs"}>
+                            <IconDotsVertical size={16}/>
+                        </IconButton>
                     </MenuButton>
                     <MenuList>
                         {

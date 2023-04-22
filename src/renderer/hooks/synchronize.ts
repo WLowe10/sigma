@@ -1,18 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
-export const useSynchronize = <T>(key: string, updateFunc: (save: any) => any, intialFunc?: (initial: T) => any) => {
-    const syncUpdate = useDebouncedCallback((value: any) => {
+export const useSynchronize = <T>(key: string, initialFunc?: (data: T) => any) => {
+    const debouncedSave = useDebouncedCallback((value) => {
         window.electron.settingsService.set(key, value);
     }, 250);
 
-    updateFunc(syncUpdate);
+    const handleGetInitial = async () => {
+        const data = await window.electron.settingsService.get(key)
+        typeof initialFunc == "function" && initialFunc(data);
+    };
 
     useEffect(() => {
-        if (typeof intialFunc == "function") {
-            window.electron.settingsService.get(key).then((data) => {
-                intialFunc(data);    
-            })
-        }
-    }, [])
+        handleGetInitial();
+    }, []);
+
+    return debouncedSave;
 };

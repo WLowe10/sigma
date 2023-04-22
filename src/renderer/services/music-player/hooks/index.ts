@@ -1,7 +1,7 @@
-import { useContext } from "react";
-import { MusicPlayerContext, MusicPlayerContextType } from "../context";
+import { useMusic } from "./music";
+import { useYoutubePlayer } from "./youtube-player";
 
-export const useMusic = () => {
-    const musicState = useContext(MusicPlayerContext) as MusicPlayerContextType;
-    return musicState;
-};
+export {
+    useMusic,
+    useYoutubePlayer
+}

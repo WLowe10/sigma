@@ -12,7 +12,13 @@ export type PlaylistsStoreType = {
 };
 
 export const usePlaylistsStore = create<PlaylistsStoreType>(set => ({
-    playlists: [],
+    playlists: [
+        // {
+        //     id: "adwd",
+        //     name: "test",
+        //     songs: ["id1"]
+        // }
+    ],
 
     createPlayList: (name: string) => set(produce<PlaylistsStoreType>(draft => {
         const newPlaylist = {

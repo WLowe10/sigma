@@ -9,6 +9,10 @@ export const MusicPlayer = () => {
     const { controls: musicControls, state: musicState } = useMusic();
     const activeSong = useSong(musicState.activeSong);
 
+    const handleSetVolume = (newVol: number) => {
+        musicControls.setVolume(newVol);
+    };
+
     if (!activeSong) return null;
 
     return (
@@ -60,7 +64,7 @@ export const MusicPlayer = () => {
                     </Stack>
 
                     <Stack direction={"column"} justifyContent={"center"} alignItems={"center"} flex={1}>
-                        <Slider orientation={"horizontal"} defaultValue={30} w={"50%"}>
+                        <Slider orientation={"horizontal"} value={musicState.volume} w={"50%"} onChange={handleSetVolume}>
                             <SliderTrack>
                                 <SliderFilledTrack />
                             </SliderTrack>
