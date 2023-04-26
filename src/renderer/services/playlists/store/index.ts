@@ -2,23 +2,18 @@ import { create } from "zustand";
 import { produce } from "immer";
 import { shuffle } from "@renderer/utils";
 import { v4 as uuidv4 } from "uuid";
-import type { PlaylistType } from "@global/types";
+import type { PlaylistType, SongType } from "@global/types";
 
 export type PlaylistsStoreType = {
     playlists: Array<PlaylistType>,
     createPlayList: (name: string) => void,
+    getSongs: (playlistId: string) => Array<string>,
     addSongs: (playlistId: string, songIds: Array<string>) => void,
     loadPlaylists: (playlists: Array<PlaylistType>) => void,
 };
 
-export const usePlaylistsStore = create<PlaylistsStoreType>(set => ({
-    playlists: [
-        // {
-        //     id: "adwd",
-        //     name: "test",
-        //     songs: ["id1"]
-        // }
-    ],
+export const usePlaylistsStore = create<PlaylistsStoreType>((set, get) => ({
+    playlists: [],
 
     createPlayList: (name: string) => set(produce<PlaylistsStoreType>(draft => {
         const newPlaylist = {
@@ -26,32 +21,22 @@ export const usePlaylistsStore = create<PlaylistsStoreType>(set => ({
             name: name, 
             songs: [],
             remainingSongs: [],
-
-            // shuffle: function() {
-            //     const remaining = this.remainingSongs.length ? this.remainingSongs : this.songs;
-            //     const randomSongIdx = Math.floor(Math.random() * remaining.length);
-            //     const randomSong = remaining[randomSongIdx];
-
-            //     if (!this.remainingSongs.length) {
-            //         this.remainingSongs = this.songs;
-            //     }
-
-            //     this.remainingSongs.splice(randomSongIdx, 1);
-
-            //     return randomSong;
-            // }
-        }
+        };
 
         draft.playlists.push(newPlaylist);
     })),
+    getSongs: (playlistId: string) => {
+        const playlists = get().playlists;
+        const playlist = playlists.find(p => p.id == playlistId);
 
+        return playlist ? playlist.songs : [];
+    },
     addSongs: (playlistId: string, songIds: Array<string>) => set(produce<PlaylistsStoreType>(draft => {
         const playlist = draft.playlists.find(pl => pl.id == playlistId);
         if (!playlist) return;
 
         playlist.songs = [...playlist.songs, ...songIds];
     })),
-
     loadPlaylists: (playlists: Array<PlaylistType>) => set(() => ({
         playlists: playlists
     }))

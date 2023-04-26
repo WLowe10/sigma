@@ -1,7 +1,7 @@
 import { useMusic } from "@renderer/services/music-player/hooks";
 import { memo, useEffect, useState } from "react";
 import { useAudioDuration } from "@renderer/hooks";
-import { Text, Image, CardHeader, Stack, Tr, Td, Menu, MenuButton, MenuList, MenuItem, Center, chakra, useTheme, IconButton, Box } from "@chakra-ui/react";
+import { Text, Image, CardHeader, Stack, Tr, Td, Menu, MenuButton, MenuList, MenuItem, Center, chakra, useTheme, IconButton, Box, Tooltip } from "@chakra-ui/react";
 import { IconDotsVertical, IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useSongs } from "@renderer/services/songs/hooks";
 import { motion } from "framer-motion"  
@@ -10,17 +10,19 @@ import { usePlaylists } from "@renderer/services/playlists/hooks";
 import { usePlaylistsStore } from "@renderer/services/playlists/store";
 import { AudioIcon } from "../icons";
 import { IconPlayerPauseFilled } from "@tabler/icons-react";
+import { formatSeconds } from "@global/utils";
+import isEqual from "react-fast-compare";
 import type { SongType } from "@global/types";
 
 type Props = {
     song: SongType,
     playing: boolean,
+    active: boolean,
+    index: number,
     playlist?: string,
-    index: number
 };
 
-export const Song = memo(({ song, playing, playlist, index }: Props) => {
-    // console.log("song rendered: ", song.id)
+export const Song = memo(({ song, active, playing, playlist, index }: Props) => {
     const { id, title, thumbnail, artist, date } = song;
     const { controls: songControls } = useSongs();
     const { controls: musicControls } = useMusic();
@@ -28,16 +30,25 @@ export const Song = memo(({ song, playing, playlist, index }: Props) => {
     const [blackAlpha600, green300] = useToken("colors", ["blackAlpha.600", "green.300"])
     const [hovered, setHovered] = useState(false);
     const playlists = usePlaylistsStore(state => state.playlists);
+    // console.log("RENDERED: ", title)
+    // console.log(playing, title)
 
     const handlePlaySong = (e: any) => {
         e.stopPropagation();
-        musicControls.setSong(id, true);
+
+        if (!active) {
+            musicControls.setSong(id);
+            musicControls.play();
+            return;
+        };
+
+        musicControls.play();
     };
 
     const handlePauseSong = (e: any) => {
         e.stopPropagation();
+
         musicControls.pause();
-        // musicControls.setSong(id, true);
     };
 
     const handleSelectSong = () => {
@@ -70,17 +81,25 @@ export const Song = memo(({ song, playing, playlist, index }: Props) => {
                                     <AudioIcon fill={green300} height={16} width={16}/>
                                 </Box>
                             ) : (
-                                index + 1
+                                <Text color={active ? green300 : undefined}>
+                                    {
+                                        index + 1
+                                    }
+                                </Text>
                             )
                         ) : (
                             playing ? (
-                                <IconButton aria-label={"pause"} size={"xs"} onClick={handlePauseSong}>
-                                    <IconPlayerPauseFilled size={16} />
-                                </IconButton>
+                                <Tooltip label={"Pause"} openDelay={500} placement={"top"} bg={"gray.700"} color={"white"}>
+                                    <IconButton aria-label={"pause"} size={"xs"} onClick={handlePauseSong}>
+                                        <IconPlayerPauseFilled size={16} />
+                                    </IconButton>
+                                </Tooltip>
                             ) : (
-                                <IconButton aria-label={"play"} size={"xs"} onClick={handlePlaySong}>
-                                    <IconPlayerPlayFilled size={16} />
-                                </IconButton>
+                                <Tooltip label={`Play ${song.title}`} openDelay={500} placement={"top"} bg={"gray.700"} color={"white"}>
+                                    <IconButton aria-label={"play"} size={"xs"} onClick={handlePlaySong}>
+                                        <IconPlayerPlayFilled size={16} />
+                                    </IconButton>
+                                </Tooltip>
                             )
                         )
                     }
@@ -89,7 +108,7 @@ export const Song = memo(({ song, playing, playlist, index }: Props) => {
             <Td>
                 <Stack direction={"row"} alignItems={"center"}>
                     <Image src={song.thumbnail} height={"3rem"} objectFit={"cover"} />
-                    <Stack direction={"column"} justifyContent={"center"}>
+                    <Stack direction={"column"} justifyContent={"center"} overflow={"hidden"}>
                         <Text fontWeight={"semibold"}>
                             {
                                 song.title
@@ -109,7 +128,9 @@ export const Song = memo(({ song, playing, playlist, index }: Props) => {
                 }
             </Td>
             <Td>
-                1:00
+                {
+                    formatSeconds(song.duration) 
+                }
             </Td>
             <Td>
                 <Menu>
@@ -137,4 +158,4 @@ export const Song = memo(({ song, playing, playlist, index }: Props) => {
             </Td>
         </Tr> 
     )
-});
+}, isEqual);

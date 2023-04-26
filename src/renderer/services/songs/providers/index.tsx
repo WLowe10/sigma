@@ -2,41 +2,38 @@ import { useEffect, useState, ReactNode } from "react";
 import { SongsContext } from "../context";
 import { SongType } from "@global/types";
 import { useSongsStore } from "../store";
-import { IpcKeys } from "@global/constants";
-import { Howl } from "howler";
-import { all } from "axios";
+import { useSynchronize } from "@renderer/hooks";
 
 export const SongsProvider = ({ children }: { children: ReactNode }) => {
     const [downloading, setDownloading] = useState(false);
     const addSongs = useSongsStore(state => state.addSongs);
     const deleteSongs = useSongsStore(state => state.deleteSongs);
-
-    const handleGetSongs = async () => {
-        const songs = await window.electron.songsService.getSongs();
-        if (songs) addSongs(songs);
-    };
+    const loadSongs = useSongsStore(state => state.loadSongs);
 
     const handleAddSong = async (url: string) => {
         setDownloading(true);
 
-        // const newSong = await window.electron.songsService.addSong(url);
-        // addSongs([newSong]);
+        const newSong = await window.electron.songsService.getSongInfo(url);
+        addSongs([newSong]);
 
         setDownloading(false);
     };
 
     const handleDeleteSongs = (idArr: Array<string>) => {
-        window.electron.songsService.deleteSong(idArr);
         deleteSongs(idArr);
     };
 
-    const handlePlaySong = () => {
-        
-    };
+    const save = useSynchronize<Array<SongType>>("songs", (initialSongs) => {
+        if (initialSongs) loadSongs(initialSongs);
+    })
 
     useEffect(() => {
-        handleGetSongs();
-    }, []);
+        const clear = useSongsStore.subscribe((state) => {
+            save(state.songs);
+        });
+
+        return clear;
+    }, [])
 
     return (
         <SongsContext.Provider value={{
@@ -45,7 +42,7 @@ export const SongsProvider = ({ children }: { children: ReactNode }) => {
             },
             controls: {
                 addSong: handleAddSong,
-                deleteSongs: handleDeleteSongs
+                deleteSongs: handleDeleteSongs,
             }
         }}>
             {

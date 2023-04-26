@@ -4,7 +4,12 @@ import { Song } from "../song";
 import { useMusic } from "@renderer/services/music-player/hooks";
 import type { SongType } from "@global/types";
 
-export const SongTable = ({ songs }: { songs: Array<SongType> }) => {
+type Props = {
+    playlistId?: string,
+    songs: Array<SongType>
+}
+
+export const SongTable = ({ songs, playlistId }: Props) => {
     const { state: musicState } = useMusic();
 
     return (
@@ -33,7 +38,14 @@ export const SongTable = ({ songs }: { songs: Array<SongType> }) => {
                 <Tbody>
                     {
                         songs.map((song, idx) => (
-                            <Song song={{...song}} playing={musicState.playing && musicState.activeSong == song.id || false} index={idx} key={song.id} />
+                            <Song 
+                                song={{...song}} 
+                                active={musicState.activeSong == song.id} 
+                                playing={musicState.playing && musicState.activeSong == song.id || false} 
+                                playlist={playlistId}
+                                index={idx} 
+                                key={song.id}
+                            />
                         ))
                     }
                 </Tbody>

@@ -6,14 +6,10 @@ import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 export type Channels = 'ipc-example';
 
 const songsService = {
-  async addSong(url: string) {
-    return await ipcRenderer.invoke(IpcKeys.SONG_ADD, {
+  async getSongInfo(url: string) {
+    return await ipcRenderer.invoke(IpcKeys.SONG_INFO, {
       url
     })
-  },
-
-  deleteSong(idArr: Array<string>) {
-    return ipcRenderer.invoke(IpcKeys.SONG_DELETE, idArr);
   },
 
   getSongs() {
@@ -71,13 +67,21 @@ const settingsService = {
   }
 };
 
+const rpcService = {
+  setListening(song: string) {
+    ipcRenderer.send(IpcKeys.RPC_SONG, song);
+  }
+}
+
 contextBridge.exposeInMainWorld('electron', {
   settingsService,
-  songsService
+  songsService,
+  rpcService
 });
 
 export type ElectronHandler = {
   settingsService: typeof settingsService,
-  songsService: typeof songsService
+  songsService: typeof songsService,
+  rpcService: typeof rpcService,
 }
 

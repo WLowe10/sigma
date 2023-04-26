@@ -16,9 +16,12 @@ export const useTempElement = (type: string, options?: ElementOptionsType) => {
 
         const tempElement = document.createElement(type || "div");
         tempElement.setAttribute("id", id);
-        tempElement.style.display = "none";
+        tempElement.style.height = "0px"
 
         document.body.appendChild(tempElement);
+
+        //?for some reason (display: none) bugs the audio slightly
+        // tempElement.style.display = "none";
 
         element.current = tempElement;
 

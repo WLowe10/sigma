@@ -5,6 +5,8 @@ export enum IpcKeys {
     GET_SONGS = "GET_SONGS",
     PLAY_SONG = "PLAY_SONG",
     SONG_STREAM = "SONG_STREAM",
-    SONG_ADD = "SONG_ADD",
-    SONG_DELETE = "SONG_DELETE"
+    SONG_INFO = "SONG_INFO",
+    SONG_DELETE = "SONG_DELETE",
+
+    RPC_SONG = "RPC_SONG"
 }

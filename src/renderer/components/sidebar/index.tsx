@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { RouteTypes } from "@renderer/constants/routes";
 import { Home, Download, Plus } from "react-feather";
 import { useSongs } from "@renderer/services/songs/hooks";
-import { IconPlus } from "@tabler/icons-react";
+import { IconHome, IconPlus } from "@tabler/icons-react";
 import { usePlaylistsStore } from "@renderer/services/playlists/store";
 import { PlaylistAddModal, SongDownloadModal } from "../modals";
 
@@ -15,11 +15,11 @@ export const SideBar = () => {
 
     return (
         <>
-        <Stack direction={"column"} spacing={4} bg="gray.900" p={"4"} pr={"10"} pt={"6"}>
+        <Stack direction={"column"} minWidth={"14rem"} spacing={4} bg="gray.900" p={"4"} pr={"10"} pt={"6"}>
             <Box>
                 <Link to={RouteTypes.Home}>
                     <Stack direction={"row"} spacing={"4"}>
-                        <Home color={"white"} />
+                        <IconHome />
                         <Text color={"white"} fontWeight={"semibold"}>
                             Home
                         </Text>
@@ -53,7 +53,7 @@ export const SideBar = () => {
                         <Link to={`/playlist/${pl.id}`}>
                             <Stack direction={"row"} alignItems={"center"}>
                                 <Avatar name={pl.name} size={"xs"} bg={"gray.600"} />
-                                <Text color={"white"} fontWeight={"bold"}>
+                                <Text color={"white"} fontWeight={"semibold"}>
                                     {
                                         pl.name
                                     }

@@ -4,5 +4,6 @@ export type SongType = {
     artist: string, 
     thumbnail: string,
     date: string,
-    url: string
+    url: string,
+    duration: number
 }

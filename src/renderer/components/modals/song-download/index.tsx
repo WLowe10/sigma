@@ -25,6 +25,7 @@ export const SongDownloadModal = ({ open, onClose }: Props) => {
     const {
         register, 
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm();
 
@@ -46,7 +47,7 @@ export const SongDownloadModal = ({ open, onClose }: Props) => {
                 <ModalBody>
                     <FormControl>
                         <FormLabel>
-                            Enter a Youtube or Soundcloud URL
+                            Enter a Youtube URL
                         </FormLabel>
                         <Input {...register("url", {
                             required: "URL is required"

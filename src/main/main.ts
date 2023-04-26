@@ -15,7 +15,7 @@ import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import Store from "electron-store";
-import { createSongsCommands, createSettingsCommands, createMusicCommands } from "./commands";
+import { createSongsCommands, createSettingsCommands, createMusicCommands, createRPCCommands } from "./commands";
 
 const store = new Store();
 
@@ -97,6 +97,8 @@ const createWindow = async () => {
     window: mainWindow,
     store: store
   });
+
+  createRPCCommands();
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 

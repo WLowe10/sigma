@@ -18,8 +18,8 @@ export const Playlist = () => {
     };
 
     return (
-         <Flex p={5} direction={"column"} flex={1}>
-            <Stack direction={"row"} justifyContent={"space-between"} mb={"6"}>
+         <Flex direction={"column"} flex={1}>
+            <Stack direction={"row"} justifyContent={"space-between"} mb={2} p={4}>
                 <Heading size={"lg"}>
                     {
                         playlist ? playlist.name : "Playlist not found"

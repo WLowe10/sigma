@@ -1,5 +1,4 @@
 import React from "react";
-import type { SongType } from "@global/types";
 
 export type MusicPlayerContextType = {
      controls: {
@@ -8,9 +7,11 @@ export type MusicPlayerContextType = {
           pause: () => void,
           setVolume: (volume: number) => void,
           loop: () => void,
+          mute: () => void,
           back: () => void,
           next: () => void,
-          shuffle: () => void
+          shuffle: () => void,
+          seek: (to: number) => void,
           // toggleLoop: () => void,
           // setVolume: (level: number) => void,
           // registerTimeEvent: (cb: any) => void,
@@ -18,9 +19,15 @@ export type MusicPlayerContextType = {
      },
      state: {
           playing: boolean,
-          looping: boolean
+          duration: number,
+          time: number,
+          progress: number,
+          looping: boolean,
+          muted: boolean,
+          shuffling: boolean,
+          buffering: boolean,
           volume: number,
-          activeSong: string | null
+          activeSong: string | null,
      }
 };
 

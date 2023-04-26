@@ -1,9 +1,8 @@
 import { ipcMain } from "electron";
 import { IpcKeys } from "../../global/constants";
-import { songManager } from "../services/song-manager";
+import { v4 as uuidv4 } from "uuid";
 import ytdl from "ytdl-core";
 import type ElectronStore from "electron-store";
-import type { SongType } from "@global/types";
 import type { BrowserWindow } from "electron";
 
 type Props = {
@@ -16,37 +15,18 @@ export const createSongsCommands = ({ window, store }: Props) => {
         return store.get("songs");
     });
 
-    ipcMain.handle(IpcKeys.SONG_ADD, async (event: any, data: any) => {
-        const songData = await songManager.downloadSong(data.url);
-        const prevSongs = store.get("songs");
-        const newSongs = Array.isArray(prevSongs) ? [...prevSongs, songData] : [songData];
-        store.set("songs", newSongs);
+    ipcMain.handle(IpcKeys.SONG_INFO, async (event: any, data: any) => {
+        const info = await ytdl.getBasicInfo(data.url);
+        const id = uuidv4();
 
-        return songData;
+        return {
+            id: id,
+            url: data.url,
+            title: info.videoDetails.title,
+            artist: info.videoDetails.ownerChannelName,
+            date: info.videoDetails.publishDate,
+            duration: info.videoDetails.lengthSeconds,
+            thumbnail: info.videoDetails.thumbnails[0].url
+        };
     });
-
-    ipcMain.handle(IpcKeys.SONG_DELETE, (event: any, idArr: Array<string>) => {
-        const songs = store.get("songs") as Array<SongType>;
-        const filteredSongs = songs.filter(song => !idArr.includes(song.id));
-
-        store.set("songs", filteredSongs);
-    });
-
-    // ipcMain.on(IpcKeys.PLAY_SONG, (event: any, url) => {
-        // const stream = ytdl(url, { filter: "audioonly"});
-
-        // stream.on("data", (chunk) => {
-        //     console.log(chunk)
-            // event.reply(IpcKeys.SONG_STREAM, {
-            //     type: "chunk",
-            //     buffer: new Uint16Array(chunk).buffer
-            // })
-        // });
-
-        // stream.on("end", () => {
-        //     window.webContents.send(IpcKeys.SONG_STREAM, {
-        //         type: "end"
-        //     })
-        // });
-    // });
 };
