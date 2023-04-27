@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { getYoutubeId, sleep } from "@global/utils";
 import { useTempElement } from "@renderer/hooks";
 import youtubePlayer from "youtube-player";
@@ -26,37 +26,20 @@ export const useYoutubePlayer = (props?: Props) => {
     const loopingRef = useRef(false);
     const tempElementId = useTempElement("div");
 
+    //hook callbacks
     const onEndRef = useRef(props?.events?.onEnd);
 
-    const handleLoadSong = async (url: string) => {
+    const handleLoadSong = (url: string) => {
         if (!player.current) return;
 
-        const getDuration = async (): Promise<number> => {
-            if (!player.current) return 0;
-            await sleep(100);
-
-            const dur = await player.current.getDuration();
-            if (!dur) return await getDuration();
-
-            return dur;
-        };
+        const videoId = getYoutubeId(url);
+        player.current.loadVideoById(videoId);
+        player.current.pauseVideo();
 
         setActiveSong(url);
         setDuration(0);
         setTime(0);
-
-        const videoId = getYoutubeId(url);
-        player.current.loadVideoById(videoId);
-        player.current.mute();
-        player.current.playVideo();
-
-        const length = await getDuration();
-
-        player.current?.pauseVideo();
-        // player.current?.seekTo(0, false);
-        player.current?.unMute();
-
-        setDuration(length);
+        setPlaying(false);
     };
 
     const handlePlaySong = () => {
@@ -112,6 +95,13 @@ export const useYoutubePlayer = (props?: Props) => {
         }
     };
 
+    const handleSeek = (to: number) => {
+        if (!player.current) return;
+       
+        const destination = (duration * to) / 100;
+        player.current.seekTo(destination, true);
+    }
+
     const handleToggleMute = () => {
         if (!player.current) return;
 
@@ -123,23 +113,6 @@ export const useYoutubePlayer = (props?: Props) => {
             setMuted(false);
         }
     };
-
-    useEffect(() => {
-        const interval = setInterval(async () => {
-            if (!player.current) return;
-
-            const time = await player.current.getCurrentTime(); 
-            setTime(time);
-        }, 100);
-
-        return () => {
-            clearInterval(interval);
-        }
-    }, [])
-
-    useEffect(() => {
-        onEndRef.current = props?.events?.onEnd;
-    }, [props?.events])
 
     const createPlayer = () => {
         const ytPlayer = youtubePlayer(tempElementId, {
@@ -157,18 +130,48 @@ export const useYoutubePlayer = (props?: Props) => {
     };
 
     useEffect(() => {
+        if (!playing) return;
+
+        const durInterval = setInterval(() => {
+            if (!player.current) return;
+
+            player.current.getDuration().then(length => {
+                if (!length) return;
+
+                setDuration(length);
+                clearInterval(durInterval);
+            });
+        }, 100)
+
+        const timeInterval = setInterval(async () => {
+            if (!player.current) return;
+
+            const time = await player.current.getCurrentTime(); 
+            setTime(time);
+        }, 100);
+
+        return () => {
+            clearInterval(durInterval);
+            clearInterval(timeInterval);
+        };
+    }, [playing, activeSong])
+
+    useEffect(() => {
+        onEndRef.current = props?.events?.onEnd;
+    }, [props?.events])
+
+    useEffect(() => {
         const ytPlayer = player.current || createPlayer();
 
         const handleState = (event: any) => {
             const handleVideoEnded = () => {
                 if (loopingRef.current) return ytPlayer.playVideo();
                 if (typeof onEndRef.current == "function") {
-                    return onEndRef.current(async (url) => {
+                    return onEndRef.current((url) => {
                         if (!url) return setPlaying(false);
 
-                        handleLoadSong(url).then(() => {
-                            handlePlaySong();
-                        });
+                        handleLoadSong(url)
+                        handlePlaySong();
                     });
                 }
 
@@ -219,6 +222,7 @@ export const useYoutubePlayer = (props?: Props) => {
             toggleMute: handleToggleMute,
             setMute: handleSetMute,
             setLoop: handleSetLoop,
+            seek: handleSeek,
             toggleLoop: handleToggleLoop
         }
     }

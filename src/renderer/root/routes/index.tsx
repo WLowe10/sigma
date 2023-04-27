@@ -6,11 +6,13 @@ import { MusicPlayer } from "@renderer/services/music-player/components";
 
 //* Pages */
 import { Home, Playlist } from "@renderer/pages/index";
+import { TopBar } from "@renderer/components/topbar";
 
 export const Routes = () => {
     return (
-        <Flex height={"100vh"} width={"100vw"} direction={"column"} overflow={"hidden"}>
-            <Flex direction={"row"} flex={1}>
+        <Flex height={"100vh"} width={"100vw"} direction={"column"} overflow={"hidden"} bg={"transparent"}>
+            <TopBar />
+            <Flex direction={"row"} flex={1} overflowY={"auto"}>
                 <BrowserRouter>
                     <SideBar />
                     <NavRoutes>

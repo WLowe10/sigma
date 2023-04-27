@@ -19,7 +19,7 @@ export const Home = () => {
     };
 
     return (
-        <Flex direction={"column"} flex={1}>
+        <Flex direction={"column"} flex={1} overflowY={"auto"}>
             <Stack direction={"row"} justifyContent={"space-between"} mb={2} p={4}>
                 <Heading size={"lg"}>
                     Songs

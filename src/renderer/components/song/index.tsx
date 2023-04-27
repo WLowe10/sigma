@@ -20,39 +20,39 @@ type Props = {
     active: boolean,
     index: number,
     playlist?: string,
+    controls: {
+        play: () => void,
+        pause: () => void,
+        set: (id: string) => void,
+    }
 };
 
-export const Song = memo(({ song, active, playing, playlist, index }: Props) => {
+export const Song = memo(({ song, active, playing, playlist, index, controls }: Props) => {
     const { id, title, thumbnail, artist, date } = song;
     const { controls: songControls } = useSongs();
-    const { controls: musicControls } = useMusic();
     const { controls: playlistControls } = usePlaylists();
+    // const playlists = usePlaylistsStore(state => state.playlists);
     const [blackAlpha600, green300] = useToken("colors", ["blackAlpha.600", "green.300"])
     const [hovered, setHovered] = useState(false);
-    const playlists = usePlaylistsStore(state => state.playlists);
-    // console.log("RENDERED: ", title)
-    // console.log(playing, title)
 
     const handlePlaySong = (e: any) => {
         e.stopPropagation();
 
-        if (!active) {
-            musicControls.setSong(id);
-            musicControls.play();
-            return;
-        };
-
-        musicControls.play();
+        if (active) {
+            controls.play();
+        } else {
+            controls.set(id);
+            controls.play();
+        }
     };
 
     const handlePauseSong = (e: any) => {
         e.stopPropagation();
-
-        musicControls.pause();
+        controls.pause();
     };
 
     const handleSelectSong = () => {
-        musicControls.setSong(id);
+        controls.set(id);
     };
 
     const handleDeleteSong = () => {
@@ -140,7 +140,7 @@ export const Song = memo(({ song, active, playing, playlist, index }: Props) => 
                         </IconButton>
                     </MenuButton>
                     <MenuList>
-                        {
+                        {/* {
                             playlists.map(pl => (
                                 <MenuItem onClick={(e: any) => {
                                     e.stopPropagation();
@@ -149,9 +149,9 @@ export const Song = memo(({ song, active, playing, playlist, index }: Props) => 
                                     Add to { pl.name }
                                 </MenuItem>
                             ))
-                        }
+                        } */}
                         <MenuItem onClick={handleDeleteSong}>
-                            Remove
+                            Delete 
                         </MenuItem>
                     </MenuList>
                 </Menu>

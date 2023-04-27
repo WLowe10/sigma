@@ -1,5 +1,4 @@
 import { useMusic } from "@renderer/services/music-player/hooks";
-import { motion, AnimatePresence} from "framer-motion";
 import { Flex, Stack, Image, Text, Center, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Box, SlideFade, Button, IconButton, Slide, useBoolean } from "@chakra-ui/react";
 import { 
     IconPlayerPlayFilled, 
@@ -7,14 +6,13 @@ import {
     IconPlayerSkipBackFilled, 
     IconPlayerSkipForwardFilled, 
     IconRepeat, 
-    IconArrowsShuffle ,
+    IconArrowsShuffle,
     IconVolume3,
-    IconVolume2
+    IconVolume2,
+    IconVolume,
 } from "@tabler/icons-react";
-import { useSongsStore } from "@renderer/services/songs/store";
 import { useSong } from "@renderer/services/songs/hooks";
 import { formatSeconds } from "@global/utils";
-import { IconVolumeOff } from "@tabler/icons-react";
 
 export const MusicPlayer = () => {
     const { controls: musicControls, state: musicState } = useMusic();
@@ -31,7 +29,7 @@ export const MusicPlayer = () => {
 
     return (
         <SlideFade in={!!musicState.activeSong}>
-            <Box bg={"gray.900"}>
+            <Box bg={"gray.900"} height={"120px"}>
                 <Stack direction={"row"} paddingInline={8} pt={4}>
                     <Text fontSize={"sm"} color={"gray.500"}>
                         {
@@ -63,16 +61,16 @@ export const MusicPlayer = () => {
                         }
                     </Text>
                 </Stack>
-                <Flex width={"100%"} justify={"space-between"} p={4}>
-                    <Stack direction={"row"} alignItems={"center"} flex={1}>
+                <Flex width={"100%"} justify={"space-between"} p={2}>
+                    <Stack direction={"row"} alignItems={"center"} overflow={"hidden"} flex={1}>
                         <Image src={activeSong.thumbnail} height={"4rem"} width={"4rem"} objectFit={"cover"}/>
                         <Stack direction={"column"} spacing={0}>
-                            <Text fontWeight={"bold"} textOverflow={"ellipsis"}>
+                            <Text fontWeight={"bold"} textOverflow={"ellipsis"} whiteSpace={"nowrap"}>
                                 {
                                     activeSong.title
                                 }
                             </Text>
-                            <Text>
+                            <Text color={"gray.500"}>
                                 {
                                     activeSong.artist
                                 }
@@ -112,7 +110,11 @@ export const MusicPlayer = () => {
                             musicState.muted ? (
                                 <IconVolume3 />
                             ) : (
-                                <IconVolume2 />
+                                musicState.volume < 50 ? (
+                                    <IconVolume2 />
+                                ) : (
+                                    <IconVolume />
+                                )
                             )
                         }
                         </IconButton>
