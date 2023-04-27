@@ -3,12 +3,16 @@ import { SongsContext } from "../context";
 import { SongType } from "@global/types";
 import { useSongsStore } from "../store";
 import { useSynchronize } from "@renderer/hooks";
+import { usePlaylists } from "@renderer/services/playlists/hooks";
+import { usePlaylistsStore } from "@renderer/services/playlists/store";
 
 export const SongsProvider = ({ children }: { children: ReactNode }) => {
+    const { controls: playlistControls } = usePlaylists();
     const [downloading, setDownloading] = useState(false);
     const addSongs = useSongsStore(state => state.addSongs);
     const deleteSongs = useSongsStore(state => state.deleteSongs);
     const loadSongs = useSongsStore(state => state.loadSongs);
+    const getPlaylists = usePlaylistsStore(state => state.getPlaylists);
 
     const handleAddSong = async (url: string) => {
         setDownloading(true);
@@ -20,6 +24,16 @@ export const SongsProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const handleDeleteSongs = (idArr: Array<string>) => {
+        const playlists = getPlaylists();
+
+        idArr.forEach((songId) => {
+            const pl = playlists.find(playlist => playlist.songs.includes(songId));
+
+            if (pl) {
+               playlistControls.removeSongs(pl.id, [songId]); 
+            };
+        });
+
         deleteSongs(idArr);
     };
 

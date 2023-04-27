@@ -7,16 +7,18 @@ import type { ReactNode } from "react";
 
 export const PlaylistsProvider = ({ children }: { children: ReactNode }) => {
     const addSongs = usePlaylistsStore(state => state.addSongs);
+    const removeSongs = usePlaylistsStore(state => state.removeSongs);
     const addPlaylists = usePlaylistsStore(state => state.createPlayList);
     const loadPlaylists = usePlaylistsStore(state => state.loadPlaylists);
     const createPlaylist = usePlaylistsStore(state => state.createPlayList);
+    const deletePlaylist = usePlaylistsStore(state => state.deletePlaylist);
 
     const handleCreatePlayList = (name: string) => {
         createPlaylist(name);
     };
 
-    const handleDeletePlaylist = () => {
-
+    const handleDeletePlaylist = (playlistId: string) => {
+        deletePlaylist(playlistId);
     };
 
     const handleAddSongs = (playlistId: string, songIds: Array<string>) => {
@@ -24,7 +26,7 @@ export const PlaylistsProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const handleRemoveSongs = (playlistId: string, songIds: Array<string>) => {
-
+        removeSongs(playlistId, songIds);
     };
 
     const save = useSynchronize<Array<PlaylistType>>("playlists", (initialPlaylists) => {
@@ -45,7 +47,7 @@ export const PlaylistsProvider = ({ children }: { children: ReactNode }) => {
                 create: handleCreatePlayList,
                 delete: handleDeletePlaylist,
                 addSongs: handleAddSongs,
-                removeSongs: handleRemoveSongs
+                removeSongs: handleRemoveSongs,
             }
         }}>
             {

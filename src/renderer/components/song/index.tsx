@@ -59,8 +59,12 @@ export const Song = memo(({ song, active, playing, playlist, index, controls }: 
         songControls.deleteSongs([id]);
     };
 
-    const handleAddToPlaylist = (playlistId: string) => {
-        playlistControls.addSongs(playlistId, [song.id])
+    const handleRemoveFromPlaylist = (e: any) => {
+        e.stopPropagation();
+
+        if (playlist) {
+            playlistControls.removeSongs(playlist, [id]);
+        };
     };
 
     return (
@@ -140,19 +144,17 @@ export const Song = memo(({ song, active, playing, playlist, index, controls }: 
                         </IconButton>
                     </MenuButton>
                     <MenuList>
-                        {/* {
-                            playlists.map(pl => (
-                                <MenuItem onClick={(e: any) => {
-                                    e.stopPropagation();
-                                    handleAddToPlaylist(pl.id)
-                                }} key={pl.id}>
-                                    Add to { pl.name }
+                        {
+                            playlist ? (
+                                <MenuItem onClick={handleRemoveFromPlaylist}>
+                                    Remove 
                                 </MenuItem>
-                            ))
-                        } */}
-                        <MenuItem onClick={handleDeleteSong}>
-                            Delete 
-                        </MenuItem>
+                            ) : (
+                                <MenuItem onClick={handleDeleteSong}>
+                                    Delete 
+                                </MenuItem>
+                            )
+                        }
                     </MenuList>
                 </Menu>
             </Td>
