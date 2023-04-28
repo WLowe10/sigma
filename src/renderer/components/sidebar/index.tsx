@@ -1,9 +1,8 @@
-import { Stack, Box, Text, Divider, Avatar, useDisclosure, Card } from "@chakra-ui/react";
+import { Stack, Box, Text, Divider, Avatar, useDisclosure, Card, IconButton } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { RouteTypes } from "@renderer/constants/routes";
-import { Home, Download, Plus } from "react-feather";
 import { useSongs } from "@renderer/services/songs/hooks";
-import { IconHome, IconPlus } from "@tabler/icons-react";
+import { IconCards, IconHome, IconMusic, IconPlus } from "@tabler/icons-react";
 import { usePlaylistsStore } from "@renderer/services/playlists/store";
 import { PlaylistAddModal, SongDownloadModal } from "../modals";
 
@@ -19,7 +18,9 @@ export const SideBar = () => {
             <Box>
                 <Link to={RouteTypes.Home}>
                     <Stack direction={"row"} spacing={"4"}>
-                        <IconHome />
+                        <IconButton aria-label={"home"} size={"xs"}>
+                            <IconHome size={16} />
+                        </IconButton>
                         <Text color={"white"} fontWeight={"semibold"}>
                             Home
                         </Text>
@@ -28,9 +29,9 @@ export const SideBar = () => {
             </Box>
             <Box onClick={downloadDisclosure.onOpen} _hover={{ cursor: "pointer" }}>
                 <Stack direction={"row"} spacing={"4"}>
-                    <Card bg={"gray.600"}>
-                        <Plus color={"white"} />
-                    </Card>
+                    <IconButton aria-label={"add-song"} size={"xs"}>
+                        <IconMusic color={"white"} size={16}/>
+                    </IconButton>
                     <Text color={"white"} fontWeight={"semibold"}>
                         Add Song
                     </Text>
@@ -38,9 +39,9 @@ export const SideBar = () => {
             </Box>
             <Box onClick={playlistDisclosure.onOpen} _hover={{cursor: "pointer"}}>
                 <Stack direction={"row"} spacing={"4"}>
-                    <Card bg={"gray.600"}>
-                        <Plus color={"white"} />
-                    </Card>
+                    <IconButton aria-label={"create-playlist"} size={"xs"}>
+                        <IconCards color={"white"} size={16} />
+                    </IconButton>
                     <Text color={"white"} fontWeight={"semibold"}>
                         Create Playlist
                     </Text>
@@ -52,7 +53,9 @@ export const SideBar = () => {
                     <Box key={pl.id}>
                         <Link to={`/playlist/${pl.id}`}>
                             <Stack direction={"row"} alignItems={"center"}>
-                                <Avatar name={pl.name} size={"xs"} color={"white"} bg={"gray.600"} />
+                                <IconButton aria-label={"open-playlist"} size={"xs"}>
+                                    <Avatar name={pl.name} size={"xs"} color={"white"} bg={"transparent"} borderRadius={2} />
+                                </IconButton>
                                 <Text color={"white"} fontWeight={"semibold"}>
                                     {
                                         pl.name

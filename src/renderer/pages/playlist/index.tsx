@@ -4,7 +4,7 @@ import { usePlaylist, usePlaylists } from "@renderer/services/playlists/hooks";
 import { SongTable } from "@renderer/components";
 import { useSongsStore } from "@renderer/services/songs/store";
 import { useFuzzy } from "react-hook-fuzzy";
-import { IconDotsVertical, IconPlus, IconSearch, IconTrashFilled } from "@tabler/icons-react";
+import { IconDotsVertical, IconPlus, IconSearch, IconSettings, IconTrashFilled } from "@tabler/icons-react";
 import { SongAddModal } from "./components";
 import { RouteTypes } from "@renderer/constants/routes";
 import { IconTrash } from "@tabler/icons-react";
@@ -29,7 +29,7 @@ export const Playlist = () => {
         navigate(RouteTypes.Home);
     };
 
-    if (!id) return;
+    if (!id) return null;
 
     return (
         <>
@@ -48,7 +48,7 @@ export const Playlist = () => {
                     <Menu>
                         <MenuButton onClick={(e: any) => e.stopPropagation()}>
                             <IconButton as={"div"} aria-label={"more options"} size={"sm"}>
-                                <IconDotsVertical size={16}/>
+                                <IconSettings size={16}/>
                             </IconButton>
                         </MenuButton>
                         <MenuList>

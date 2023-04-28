@@ -22,7 +22,6 @@ export const usePlaylistsStore = create<PlaylistsStoreType>((set, get) => ({
             id: uuidv4(),
             name: name, 
             songs: [],
-            remainingSongs: [],
         };
 
         draft.playlists.push(newPlaylist);

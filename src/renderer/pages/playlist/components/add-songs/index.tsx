@@ -53,6 +53,7 @@ export const SongAddModal = ({ open, onClose, playlistId }: Props) => {
         if (selected.length < 1) return;
 
         playlistControls.addSongs(playlistId, selected);
+        setSelected([]);
     };
 
     return (
@@ -82,6 +83,7 @@ export const SongAddModal = ({ open, onClose, playlistId }: Props) => {
                             <Stack direction={"row"} key={song.id}>
                                 <Checkbox 
                                     size={"lg"}
+                                    isChecked={selected.includes(song.id)}
                                     onChange={(e: any) => handleSelect(song.id, e.target.checked)}
                                 />
                                 <Image src={song.thumbnail} height={"16"} width={"16"} objectFit={"cover"}/>

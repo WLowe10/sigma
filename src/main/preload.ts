@@ -71,17 +71,34 @@ const rpcService = {
   setListening(song: string) {
     ipcRenderer.send(IpcKeys.RPC_SONG, song);
   }
+};
+
+const appService = {
+  minimize() {
+    ipcRenderer.send(IpcKeys.MINIMIZE_WINDOW);
+  },
+  maximize() {
+    ipcRenderer.send(IpcKeys.MAXIMIZE_WINDOW);
+  },
+  exit() {
+    ipcRenderer.send(IpcKeys.EXIT);
+  },
+  async getVersion() {
+    return await ipcRenderer.invoke(IpcKeys.APP_GET_VERSION);
+  }
 }
 
 contextBridge.exposeInMainWorld('electron', {
   settingsService,
   songsService,
-  rpcService
+  rpcService,
+  appService
 });
 
 export type ElectronHandler = {
   settingsService: typeof settingsService,
   songsService: typeof songsService,
   rpcService: typeof rpcService,
+  appService: typeof appService,
 }
 

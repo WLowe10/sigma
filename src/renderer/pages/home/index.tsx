@@ -25,16 +25,14 @@ export const Home = () => {
                     Songs
                 </Heading>
                 <Box>
-                    <InputGroup>
-                        <InputLeftElement>
-                            <IconSearch size={14} />
-                        </InputLeftElement>
-                        <Input 
-                            placeholder={"search"} 
-                            onChange={handleSearch} 
-                            value={term}
-                        />
-                    </InputGroup>
+                <Input 
+                    placeholder={"search"} 
+                    onChange={handleSearch} 
+                    value={term}
+                    size={"sm"}
+                    variant={"filled"}
+                    borderRadius={4}
+                />
                 </Box>
             </Stack>
             <SongTable songs={results}/>
