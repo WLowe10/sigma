@@ -27,12 +27,14 @@ import { useFuzzy } from "react-hook-fuzzy";
 type Props = {
     open: boolean,
     onClose: () => any,
-    playlistId: string
+    playlistSongs: Array<string>,
+    controls: {
+        addSongs: (songIds: Array<string>) => void,
+    }
 };
 
-export const SongAddModal = ({ open, onClose, playlistId }: Props) => {
-    const songs = useSongsStore(state => state.songs);
-    const { controls: playlistControls } = usePlaylists();
+export const SongAddModal = ({ open, onClose, playlistSongs, controls }: Props) => {
+    const songs = useSongsStore(state => state.songs.filter(song => !playlistSongs.includes(song.id)));
     const [selected, setSelected] = useState<Array<string>>([]);
     const { results, term, search } = useFuzzy(songs, ["title", "artist"]);
 
@@ -52,7 +54,7 @@ export const SongAddModal = ({ open, onClose, playlistId }: Props) => {
     const handleAdd = () => {
         if (selected.length < 1) return;
 
-        playlistControls.addSongs(playlistId, selected);
+        controls.addSongs(selected);
         setSelected([]);
     };
 
@@ -70,6 +72,7 @@ export const SongAddModal = ({ open, onClose, playlistId }: Props) => {
                         mb={2} 
                         mt={2} 
                         borderRadius={4}
+                        variant={"filled"}
                         value={term}
                         onChange={handleSearch}
                     />

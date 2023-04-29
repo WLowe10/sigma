@@ -92,19 +92,17 @@ export const Song = memo(({ song, active, playing, playlist, index, controls }: 
                                 </Text>
                             )
                         ) : (
-                            playing ? (
-                                <Tooltip label={"Pause"} openDelay={500} placement={"top"} bg={"gray.700"} color={"white"}>
-                                    <IconButton aria-label={"pause"} size={"xs"} onClick={handlePauseSong}>
-                                        <IconPlayerPauseFilled size={16} />
+                            <Tooltip label={playing ? "Pause" : `Play ${song.title}`} openDelay={500} placement={"top"} bg={"gray.700"} color={"white"}>
+                                    <IconButton aria-label={"toggle-state"} size={"xs"} onClick={playing ? handlePauseSong : handlePlaySong}>
+                                        {
+                                            playing ? (
+                                                <IconPlayerPauseFilled size={16} />
+                                            ) : (
+                                                <IconPlayerPlayFilled size={16} />
+                                            )
+                                        }
                                     </IconButton>
-                                </Tooltip>
-                            ) : (
-                                <Tooltip label={`Play ${song.title}`} openDelay={500} placement={"top"} bg={"gray.700"} color={"white"}>
-                                    <IconButton aria-label={"play"} size={"xs"} onClick={handlePlaySong}>
-                                        <IconPlayerPlayFilled size={16} />
-                                    </IconButton>
-                                </Tooltip>
-                            )
+                            </Tooltip>
                         )
                     }
                 </Center>

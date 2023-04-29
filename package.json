@@ -67,7 +67,6 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@tabler/icons-react": "^2.16.0",
-    "discord-rpc": "^4.0.1",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.8",
     "electron-store": "^8.1.0",
@@ -161,8 +160,8 @@
     "webpack-merge": "^5.8.0"
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "Sigma",
+    "appId": "com.sigma.SigmaDesktop",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -220,8 +219,8 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "owner": "",
+      "repo": ""
     }
   },
   "collective": {

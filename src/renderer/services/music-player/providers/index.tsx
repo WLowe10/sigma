@@ -43,7 +43,7 @@ export const MusicPlayerProvider = ({ children }: { children: ReactNode }) => {
         if (songId == activeSong) return;
 
         const song = getSongs([songId])[0];
-        if (!song) return;
+        if (!song) return; 
 
         setActiveSong(songId);
         playerControls.load(song.url);

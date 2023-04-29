@@ -120,7 +120,7 @@ export const useYoutubePlayer = (props?: Props) => {
                 autoplay: 0,
                 controls: 0,
                 disablekb: 1,
-            },
+            }
         });
 
         ytPlayer.setPlaybackQuality("small");

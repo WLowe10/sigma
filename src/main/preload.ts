@@ -15,19 +15,6 @@ const songsService = {
   getSongs() {
     return ipcRenderer.invoke(IpcKeys.GET_SONGS)
   },
-
-  playSong(url: string) {
-    ipcRenderer.send(IpcKeys.PLAY_SONG, url);
-  },
-
-  on(channel: IpcKeys.SONG_STREAM, func: (...args: any) => void) {
-    const subscription = (_event: IpcRendererEvent, ...args: any) => func(...args);
-    ipcRenderer.on(channel, subscription);
-
-    return () => {
-      ipcRenderer.removeListener(channel, subscription);
-    };
-  }
 };
 
 const playlistsService = {

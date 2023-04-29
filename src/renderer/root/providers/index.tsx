@@ -4,9 +4,11 @@ import { MusicPlayerProvider } from "@renderer/services/music-player/providers";
 import { SongsProvider } from "@renderer/services/songs/providers";
 import { theme } from "@renderer/constants/theme";
 import { PlaylistsProvider } from "@renderer/services/playlists/providers";
+import { ColorModeScript } from "@chakra-ui/react";
 
 export const Providers = ({ children }: { children: ReactNode }) => {
     return (
+        <>
         <ChakraProvider resetCSS={true} theme={theme}>
             <PlaylistsProvider>
                 <SongsProvider>
@@ -16,5 +18,7 @@ export const Providers = ({ children }: { children: ReactNode }) => {
                 </SongsProvider>
             </PlaylistsProvider>
         </ChakraProvider>
+        <ColorModeScript />
+        </>
     )
 };

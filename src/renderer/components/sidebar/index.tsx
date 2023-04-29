@@ -48,6 +48,7 @@ export const SideBar = () => {
                 </Stack>
             </Box>
             <Divider />
+            <Stack spacing={4} overflowY={"auto"}>
             {
                 playlists.map(pl => (
                     <Box key={pl.id}>
@@ -66,6 +67,7 @@ export const SideBar = () => {
                     </Box>
                 ))
             }
+            </Stack>
         </Stack>
 
         <SongDownloadModal open={downloadDisclosure.isOpen} onClose={downloadDisclosure.onClose}/>

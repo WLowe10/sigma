@@ -3,7 +3,7 @@ import { Home as HomeIcon, Search, Book, Clock } from "react-feather";
 import { useMusic } from "@renderer/services/music-player/hooks";
 import { useSongs } from "@renderer/services/songs/hooks";
 import { AnimatePresence } from "framer-motion";
-import { Flex, Heading, Input, TableCaption, TableContainer, Table, Thead, Tr, Th, Tbody, Td, Image, Stack, Box, InputGroup, InputLeftAddon, InputLeftElement, Center } from "@chakra-ui/react";
+import { Flex, Heading, Input, TableCaption, TableContainer, Table, Thead, Tr, Th, Tbody, Td, Image, Stack, Box, InputGroup, InputLeftAddon, InputLeftElement, Center, Divider } from "@chakra-ui/react";
 import { Song } from "@renderer/components/song";
 import { useSongsStore } from "@renderer/services/songs/store";
 import { IconSearch } from "@tabler/icons-react";

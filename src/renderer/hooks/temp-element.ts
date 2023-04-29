@@ -16,7 +16,7 @@ export const useTempElement = (type: string, options?: ElementOptionsType) => {
 
         const tempElement = document.createElement(type || "div");
         tempElement.setAttribute("id", id);
-        tempElement.style.height = "0px"
+        // tempElement.style.height = "0px"
 
         document.body.appendChild(tempElement);
 

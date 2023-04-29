@@ -23,7 +23,7 @@ export const SongTable = ({ songs, playlistId }: Props) => {
 
     const handleSelectSong = useCallback((id: string) => {
         musicControls.setSong(id);
-    }, []);
+    }, [musicState.activeSong]);
 
     return (
         <TableContainer flex={1} overflowY={"auto"}>

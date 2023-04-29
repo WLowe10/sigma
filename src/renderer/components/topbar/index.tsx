@@ -20,7 +20,7 @@ export const TopBar = () => {
     };
 
     return (
-        <Box p={2} bg={"blackAlpha.500"}>
+        <Box p={2} bg={"gray.900"}>
             <Draggable>
                 <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
                     <Stack direction={"row"} alignItems={"center"}>

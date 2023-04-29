@@ -3,8 +3,6 @@ export enum IpcKeys {
     STORE_GET = "STORE_GET",
 
     GET_SONGS = "GET_SONGS",
-    PLAY_SONG = "PLAY_SONG",
-    SONG_STREAM = "SONG_STREAM",
     SONG_INFO = "SONG_INFO",
     SONG_DELETE = "SONG_DELETE",
 
